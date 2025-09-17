@@ -31,20 +31,29 @@
                                         <div class="form-group">
                                             <?php if($message) echo "<h2 class='text-danger'>".$mesage."</h2>";   ?>    
                                         </div>
-                                        <div class="boxform boxshowimg ">
+                                        <!-- <div class="boxform boxshowimg ">
                                             <div class="ouputimg">
                                                 <br>
                                                 <div class="output-fet"><output id="list"></output></div>
                                                 <a href="#" id="clear">Xoá</a>
                                             </div>
                                         
-                                        </div>
-                                        <div class="form-group">
+                                        </div> -->
+                                        <!-- <div class="form-group">
                                             <div class="inputhinh">
                                             <label for="">Image Url</label><span style="color:red;"> (*)</span>
                                            <input type="file" name="img[]" style=" position: absolute;" class="imagefet" id="control" multiple>
                                             </div>
-                                            
+                                        </div> -->
+                                        <div class="form-group">
+                                            <div class="inputhinh">
+                                                <label for="">Ảnh Sản Phẩm</label><span style="color:red;"> (*)</span>
+                                                <div id="drop-area" style="border:2px dashed #ccc; padding:30px; text-align:center; cursor:pointer;">
+                                                    <p>Kéo & thả ảnh vào đây hoặc click để chọn ảnh</p>
+                                                    <input type="file" name="img[]" id="fileElem" multiple style="display:none;">
+                                                </div>
+                                                <div id="preview" style="display:flex;flex-wrap:wrap;"></div>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -155,8 +164,8 @@
                                         
                                       
                                         <div class="form-group text-right mb-0 mt-5">
-                                            <input type="submit" name="them" class="btn btn-primary waves-effect waves-light mr-1" value="Thêm" id='add_product'>
                                             <a href="<?=ROOT_URL?>/admin/?ctrl=product&act=index" clas="btn btn-secondary waves-effect waves-light">Hủy</a>
+                                            <input type="submit" name="them" class="btn btn-primary waves-effect waves-light mr-1" value="Thêm" id='add_product'>
                                         </div>
 
                                     </form>
@@ -166,3 +175,5 @@
                     </div>
                 </div>
             </div>
+
+            <script src="<?=ROOT_URL?>/admin/views/assets/js/custom_editproduct.js"></script>

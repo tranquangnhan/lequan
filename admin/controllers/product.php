@@ -77,9 +77,10 @@ class Product{
             $img = $_FILES['img'];
             
             $imgs = $this->lib->checkUpLoadMany($img);
+          
             if($imgs){
                 $checkIMG = explode(",",$imgs);
-            
+        
                 for ($i=0; $i <count($checkIMG) ; $i++) { 
                     $checkIMG[$i] = explode(".",$checkIMG[$i]);
                     $checkIMG[$i][1] = strtolower($checkIMG[$i][1]);
@@ -152,6 +153,7 @@ class Product{
                 
                 }else
                 {
+              
                     // echo 'oke';
                     $slug = $slug.'-'.($this->model->getLastestIdProduct()+1);
                     
@@ -167,6 +169,7 @@ class Product{
 
 
     function store($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description){   
+        
         $idLastPhone = $this->model->addNewProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description);
         if($idLastPhone != null)
         {

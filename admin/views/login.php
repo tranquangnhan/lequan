@@ -69,8 +69,8 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked>
-                                            <label class="custom-control-label" for="checkbox-signin">Remember</label>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox-signin" name="remember_me" value="1">
+                                            <label class="custom-control-label" for="checkbox-signin">Ghi nhớ đăng nhập</label>
                                         </div>
                                     </div>
 

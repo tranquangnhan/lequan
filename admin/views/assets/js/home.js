@@ -10,18 +10,12 @@ function submitForm() {
         message.innerHTML = "";
         return true
     } else {
-
         let arr = valColor.split(",")
-        console.log(arr.length);
         for (let i = 0; i < arr.length; i++) {
             if (arr[i].charAt(0) != '#') { message.innerHTML = "Định dạng hợp lệ là #000, #fff, ..."; return false; } else { message.innerHTML = ""; }
             if (arr[i].slice(1).length != 3) { message.innerHTML = "Định dạng hợp lệ là #000, #fff, ..."; return false; } else { message.innerHTML = ""; }
         }
-
     }
-
-
-
 }
 
 function checkDelete(link) {

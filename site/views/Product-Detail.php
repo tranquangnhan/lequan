@@ -20,6 +20,8 @@ if(is_array($sp)){
 
 
                 <section id="main" itemscope itemtype="https://schema.org/Product">
+                <link rel="stylesheet" href="views/assets/css/custom-product.css">
+                
                     <meta itemprop="url"
                         content="#">
 
@@ -35,7 +37,7 @@ if(is_array($sp)){
                                     <div class="product-cover">
 
 
-                                        <img id="zoom" class="js-qv-product-cover zoomLens imgdetail"
+                                        <img id="zoom" class="js-qv-product-cover zoomLens imgdetail main-product-image"
                                             src="<?=$avt?>"
                                             alt="" title="" style="min-height:350px; width:100%" itemprop="image">
 
@@ -61,11 +63,11 @@ if(is_array($sp)){
                                                   }else{
                                                       $imgdetail[$i] = '../view/images/logo.jpg';
                                                   }
-                                                  echo '<li class="thumb-container">
-                                                  <img class="thumb js-thumb selected" data-image-large-src="'.$imgdetail[$i].'"
-                                                      src="'.$imgdetail[$i].'"
-                                                      alt="" title="" width="100" height="120" itemprop="image">
-                                                </li>';
+                                                                                                    echo '<li class="thumb-container">
+                                                                                                    <img class="thumb js-thumb'.($i==0? ' selected':'').'" data-image-large-src="'.$imgdetail[$i].'"
+                                                                                                            src="'.$imgdetail[$i].'"
+                                                                                                            alt="" title="" width="100" height="120" itemprop="image">
+                                                                                                </li>';
                                                 }
                                             ?>
                                             
@@ -224,6 +226,7 @@ if(is_array($sp)){
                                               // color
                                             ?>
                                          
+                                    <script src="views/assets/js/custom-product.js"></script>
                                         </div>
                                             
 

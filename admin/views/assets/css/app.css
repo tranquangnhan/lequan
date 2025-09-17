@@ -6296,3 +6296,7 @@ div.hopscotch-bubble .hopscotch-content {
 a#cke_Upload_463 {
     display: none;
 }
+.error{
+    color: red;
+    font-size: 13px;
+}

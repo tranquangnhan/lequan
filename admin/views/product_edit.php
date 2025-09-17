@@ -28,27 +28,32 @@
                                     <h4 class="header-title mt-0 mb-3">Sản phẩm</h4>
 
                                     <form data-parsley-validate id="formadd" novalidate onsubmit="return submitForm()"  method="post" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="">Image</label><span style="color:red;"> (*)</span>
-                                            <br>
+                                   <div class="form-group">
+                                        <label for="">Ảnh sản phẩm</label>
+                                        <div id="current-images" style="display:flex;flex-wrap:wrap;">
                                             <?php
-                                                if(is_file(PATH_IMG_SITE.explode(",",$oneRecode['image_list'])[0])){
-                                                    $img = PATH_IMG_SITE.explode(",",$oneRecode['image_list'])[0];
-                                                }else{
-                                                    $img = PATH_IMG_SITE.'logo.png';
-                                                }
+                                            $images = explode(",", $oneRecode['image_list']);
+                                            foreach ($images as $idx => $imgName):
+                                                $imgPath = PATH_IMG_SITE . $imgName;
                                             ?>
-                                            <img width="200" style="object-fit: cover;" height="200" src="<?= $img?>" alt="">
-                                            <br>
-                                           <input class="mt-2" type="file" name="img[]" multiple>
+                                                <div style="position:relative; margin:5px;">
+                                                    <img src="<?= $imgPath ?>" width="100" height="100" style="object-fit:cover;">
+                                                    <button type="button" class="btn-delete-img" data-index="<?= $idx ?>" style="position:absolute;top:2px;right:2px;background:red;color:white;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;">X</button>
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
+                                        <input type="hidden" name="old_images" id="old_images" value="<?= htmlspecialchars($oneRecode['image_list']) ?>">
+                                        <br>
+                                        <label>Thêm ảnh mới:</label>
+                                        <input class="mt-2" type="file" name="img[]" multiple>
+                                    </div>
 
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="">Tên sản phẩm</label><span style="color:red;"> (*)</span>
                                                     <input type="text" name="name_product"  parsley-trigger="change" required
-                                                        placeholder="Type name product" value="<?=$oneRecode['name']?>" class="form-control" id="userName">
+                                                        placeholder="Nhập tên sản phẩm" value="<?=$oneRecode['name']?>" class="form-control" id="userName">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -158,8 +163,8 @@
                                         
 
                                         <div class="form-group text-right mb-0 mt-5">
-                                            <input type="submit" name="them" class="btn btn-primary waves-effect waves-light mr-1" value="Sửa">
                                            <a href="<?=ROOT_URL?>/admin/?ctrl=product&act=index" clas="btn btn-secondary waves-effect waves-light">Hủy</a>
+                                           <input type="submit" name="them" class="btn btn-primary waves-effect waves-light mr-1" value="Sửa">
                                         </div>
 
                                     </form>
@@ -169,3 +174,4 @@
                     </div>
                 </div>
             </div>
+<script src="<?=ROOT_URL?>/admin/views/assets/js/custom_editproduct.js"></script>

@@ -783,21 +783,7 @@
 
                     <div class="block-category card card-block hidden-sm-down">
 
-                        <div class="category-cover">
-                            <img src="<?=PATH_IMG_SITE.$banner[10]['bannerImage']?>" 
-                                alt="Clothes">
-                        </div>
-                        <?php
-                            
-                        
-                        ?>
-                        <h1 class="h1 title-category"><?php echo $getCateFromId['name']; ?></h1>
-                        <p><?php echo $getCateFromId['description']; ?></p>
-
-                        <div class="text-sm-center hidden-md-up">
-                            <h1 class="h1"><?php echo $getCateFromId['name']; ?></h1>
-                        </div>
-
+          
 
 
 

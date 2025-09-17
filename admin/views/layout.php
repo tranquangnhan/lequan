@@ -296,7 +296,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            2020 &copy;phát triển bởi <a href="">Quang Nhân</a>
+                            2020 &copy;phát triển bởi <a href="https://www.facebook.com/quannhan.tran.16/">Quang Nhân</a>
                         </div>
                       
                     </div>
@@ -422,6 +422,7 @@
     <script src="views/assets/js/ckfinder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"> </script>
     <script src="views/assets/js/validate.js"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,7 @@
+{
+    "codegpt.apiKey": "sk-ee1e430803a847f7aacb3334dc91b6af",
+    "codegpt.provider": "deepseek",
+    "codegpt.model": "deepseek-chat",
+    "codegpt.maxTokens": 4000,
+    "codegpt.temperature": 0.7
+}
