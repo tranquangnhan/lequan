@@ -67,10 +67,11 @@
             
         </div>
         
-        <div class="col-md-9 ">
+        <div class="col-md-9 banner">
+     
         <div id="top_column">
     <div class="kkimgslider clearfix ">
-        <div class="flexslider" data-interval="5000" data-pause="hover">
+        <div class="flexslider mobile-friendly" data-interval="5000" data-pause="hover">
             <ul class="slides">
                 <li class="slide">
 
@@ -106,7 +107,7 @@
     <div class="container">
         <div class="kk_banner hb-animate-element  bottom-to-top clearfix ">
             <div class="row">
-                <div class="center-banner list-unstyled">
+                <div class="center-banner list-unstyled banner-grid d-flex ">
                     <div class="slider banner2 col-lg-4 col-md-12">
                         <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1" class="kk-customhover-fadeintopbottom">
                             <img src="<?=PATH_IMG_SITE.$banner[3]['bannerImage']?>" alt="kbanner-1"
@@ -132,147 +133,19 @@
                 </div>
             </div>
         </div>
-        <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top">
+          <hr></hr>
+        <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top pt-1">
             <div class="kkproductsblock-container">
                 <div class="producttab">
-                    <h2 class="kk-title">Sản phẩm hot</h2>
+                    <h2 class="kk-title">GIÀY NAM THỜI TRANG</h2>
 
-                    <ul id="kkproductstab" class="nav nav-tabs clearfix">
-                        <li class="nav-item first_item">
-                            <a class="nav-link active" href="#featured-products-block" data-toggle="tab">Đặc sắc</h2></a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="#new-products-block" data-toggle="tab">Mới nhất</h2></a>
-                        </li>
-                        <li class="nav-item last_item">
-                            <a class="nav-link " href="#bestseller-products-block" data-toggle="tab">Bán chạy</h2></a>
-                        </li>
-                    </ul>
+                   
                 </div>
 
                 <div class="product_content ">
                     <div class="tab-content">
 
-                        <div id="featured-products-block" class="tab-pane fadeIn animated active">
-                            <div class="block_content row">
-                                <div id="kk-featured-products" class="owl-carousel owl-loaded owl-drag">
-                                    <?php
-                                        foreach ($getAllProAsc as $row){
-                                          if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[0])){
-                                            $img = PATH_IMG_SITE.explode(",",$row['image_list'])[0];
-                                        }else{
-                                            $img = PATH_IMG_SITE.'logo.png';
-                                        }
-                                        if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[1])){
-                                            $imgCover = PATH_IMG_SITE.explode(",",$row['image_list'])[1];
-                                        }else{
-                                            $imgCover =  PATH_IMG_SITE.explode(",",$row['image_list'])[0];
-                                        }
-                                        if($row['new'] == 1){
-                                          $new = ' <li class="product-flag new">New</li>';
-                                        }else{
-                                          $new = '';
-                                        }
-                                        
-                                            $price = $row['price'];
-                                            
-                                        if($row['discount'] > 0){
-                                            
-                                          $discount = ' <li class="product-flag discount">'.$row['discount'].'%</li>';
-                                          $giaDiscount = ' <div class="product-price-and-shipping">
-              
-                                                          <span class="sr-only">Regular price</span>
-                                                          <span class="regular-price">'.$this->lib->forMatTien($price).' đ</span>
-                                                          <span class="discount-percentage discount-product">-'.$row['discount'].'%</span>
-            
-            
-                                                          <span class="sr-only">Price</span>
-                                                          <span itemprop="price" class="price">'.$this->lib->forMatTien(($price - ($row['discount']*$price)/100)).' đ</span>
-                                                      </div>';
-                                        }else{
-                                          $discount = '';
-                                          $giaDiscount = '<div class="product-price-and-shipping">
-                                  
-                        
-                                                            <span class="sr-only">Price</span>
-                                                            <span itemprop="price" class="price">'.$this->lib->forMatTien($price).' đ</span>
-
-                                                      </div>';
-                                        }
-                                        if($price<=0 ||$price =='' ){
-                                            $giaDiscount = '';
-                                        }
-                                        
-                                            $name = $row['name'];
-                                        
-                                        $link = ROOT_URL."/san-pham-chi-tiet/".$row['slug'];
-                                            echo '<div class="kktab-block">
-                                          <article class="product-miniature js-product-miniature " data-id-product="17"
-                                            data-id-product-attribute="46" itemscope itemtype="http://schema.org/Product">
-                                            <div class="thumbnail-container">
-                                                <div class="product-inner">
-                                                    <div class="thumbnail-inner">
-                                                        <div class="inner">
-                
-                                                            <div class="product-img">
-                
-                                                                <a href="'. $link.'"
-                                                                    class="thumbnail product-thumbnail">
-                
-                                                                    <img src="'. $img.'"
-                                                                        alt="Pellentesque augue"
-                                                                        data-full-size-image-url="'. $img.'" height="250" >
-                                                                    <img class="second_image img-responsive"
-                                                                        src="'. $imgCover.'"
-                                                                        alt="" title="" height="250" width="200" />
-                                                                </a>
-                                                            </div>
-                                                            <ul class="product-flags">
-                                                              '.$discount.'
-                                                                '.$new.'
-                                                              
-                                                            </ul>
-                
-                                                        </div>
-                
-                                                        <div class="kkproducthover">
-                                                
-                                                            <div class="quick-view-block">
-                                                                <a href="'. $link.'" class=" btn" 
-                                                                    title="Quick view">
-                                                                 
-                                                                </a>
-                                                            </div>
-                
-                
-                                                        </div>
-                                                    </div>
-                
-                
-                                                    <div class="product-description">
-                
-                
-                                                        <h3 class="h3 product-title" itemprop="name"><a
-                                                                href="'. $link.'">'.$name.'</a></h3>
-                
-                
-                                                        '.$giaDiscount.'
-                
-    
-                                                    </div>
-                               
-                
-                                                </div>
-                                            </div>
-                                        </article>
-                                        </div>';
-                                          }
-                                      
-                                      ?>
-                                </div>
-                            </div>
-
-                        </div>
+                     
                         <div id="new-products-block" class="tab-pane fadeIn animated ">
                             <div class="block_content row">
                                 <div id="kk-featured-products" class="owl-carousel">
@@ -393,11 +266,31 @@
                             </div>
 
                         </div>
-                        <div id="bestseller-products-block" class="tab-pane fadeIn animated ">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+                                          
+      
+
+         <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top">
+            <div class="kkproductsblock-container">
+                <div class="producttab">
+                    <h2 class="kk-title">QUẦN ÁO Thời Trang</h2>
+
+                   
+                </div>
+
+                <div class="product_content ">
+                    <div class="tab-content">
+
+                     
+                        <div id="new-products-block" class="tab-pane fadeIn animated ">
                             <div class="block_content row">
                                 <div id="kk-featured-products" class="owl-carousel">
                                     <?php
-                                        foreach ($getAllByBuyed as $row){
+                                        foreach ($getProQuanAo as $row){
                                           if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[0])){
                                             $img = PATH_IMG_SITE.explode(",",$row['image_list'])[0];
                                         }else{
@@ -414,7 +307,7 @@
                                           $new = '';
                                         }
                                         
-                                        $price = $row['price'];
+                                            $price = $row['price'];
                                             
                                         if($row['discount'] > 0){
                                         
@@ -436,7 +329,7 @@
                             
                                                                 <span class="sr-only">Price</span>
                                                                 <span itemprop="price" class="price">'.$this->lib->forMatTien($price).' đ</span>
-
+    
                                                         </div>';
                                             }
                                         if($price<=0 ||$price =='' ){
@@ -513,10 +406,149 @@
                             </div>
 
                         </div>
+                       
                     </div>
                 </div>
             </div>
         </div>
+        <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top">
+            <div class="kkproductsblock-container">
+                <div class="producttab">
+                    <h2 class="kk-title">PHỤ KIỆN THỜI TRANG</h2>
+
+                   
+                </div>
+
+                <div class="product_content ">
+                    <div class="tab-content">
+
+                     
+                        <div id="new-products-block" class="tab-pane fadeIn animated ">
+                            <div class="block_content row">
+                                <div id="kk-featured-products" class="owl-carousel">
+                                    <?php
+                                        foreach ($getProPhuKien as $row){
+                                          if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[0])){
+                                            $img = PATH_IMG_SITE.explode(",",$row['image_list'])[0];
+                                        }else{
+                                            $img = PATH_IMG_SITE.'logo.png';
+                                        }
+                                        if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[1])){
+                                          $imgCover = PATH_IMG_SITE.explode(",",$row['image_list'])[1];
+                                        }else{
+                                            $imgCover =  PATH_IMG_SITE.explode(",",$row['image_list'])[0];
+                                        }
+                                        if($row['new'] == 1){
+                                          $new = ' <li class="product-flag new">New</li>';
+                                        }else{
+                                          $new = '';
+                                        }
+                                        
+                                            $price = $row['price'];
+                                            
+                                        if($row['discount'] > 0){
+                                        
+                                            $discount = ' <li class="product-flag discount">'.$row['discount'].'%</li>';
+                                            $giaDiscount = ' <div class="product-price-and-shipping">
+                
+                                                            <span class="sr-only">Regular price</span>
+                                                            <span class="regular-price">'.$this->lib->forMatTien($price).' đ</span>
+                                                            <span class="discount-percentage discount-product">-'.$row['discount'].'%</span>
+                
+                
+                                                            <span class="sr-only">Price</span>
+                                                            <span itemprop="price" class="price">'.$this->lib->forMatTien(($price - ($row['discount']*$price)/100)).' đ</span>
+                                                        </div>';
+                                            }else{
+                                            $discount = '';
+                                            $giaDiscount = '<div class="product-price-and-shipping">
+                                    
+                            
+                                                                <span class="sr-only">Price</span>
+                                                                <span itemprop="price" class="price">'.$this->lib->forMatTien($price).' đ</span>
+    
+                                                        </div>';
+                                            }
+                                        if($price<=0 ||$price =='' ){
+                                            $giaDiscount = '';
+                                        }
+                                        
+                                            $name = $row['name'];
+                                        
+                                        $link = ROOT_URL."/san-pham-chi-tiet/".$row['slug'];
+                                        echo '<div class="kktab-block">
+                                      <article class="product-miniature js-product-miniature " data-id-product="17"
+                                        data-id-product-attribute="46" itemscope itemtype="http://schema.org/Product">
+                                        <div class="thumbnail-container">
+                                            <div class="product-inner">
+                                                <div class="thumbnail-inner">
+                                                    <div class="inner">
+            
+                                                        <div class="product-img">
+            
+                                                            <a href="'. $link.'"
+                                                                class="thumbnail product-thumbnail">
+            
+                                                                <img src="'. $img.'"
+                                                                    alt="Pellentesque augue"
+                                                                    data-full-size-image-url="'. $img.'" height="250" >
+                                                                <img class="second_image img-responsive"
+                                                                    src="'. $imgCover.'"
+                                                                    alt="" title="" height="250" width="200" />
+                                                            </a>
+                                                        </div>
+                                                        <ul class="product-flags">
+                                                          '.$discount.'
+                                                            '.$new.'
+                                                          
+                                                        </ul>
+            
+                                                    </div>
+            
+                                                    <div class="kkproducthover">
+                                            
+                                                        <div class="quick-view-block">
+                                                            <a href="'. $link.'" class=" btn" 
+                                                                title="Quick view">
+                                                             
+                                                            </a>
+                                                        </div>
+            
+            
+                                                    </div>
+                                                </div>
+            
+            
+                                                <div class="product-description">
+            
+            
+                                                    <h3 class="h3 product-title" itemprop="name"><a
+                                                            href="'. $link.'">'.$name.'</a></h3>
+            
+            
+                                                    '.$giaDiscount.'
+            
+
+                                                </div>
+                           
+            
+                                            </div>
+                                        </div>
+                                    </article>
+                                    </div>';
+                                          }
+                                      
+                                      ?>
+                                </div>
+                            </div>
+
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="kkparallaxcms" class="parallax parallaxcms-outer hb-animate-element bottom-to-top "
             data-source-url="<?=PATH_IMG_SITE.$banner[6]['bannerImage']?>">
             <div class="container">
@@ -536,8 +568,9 @@
         </div>
         <section class="container infinityspecial-products hb-animate-element bottom-to-top  clearfix">
 
-            <h3 class="kk-title">Sản phẩm đặc biệt</h3>
-
+                 <div class="producttab">
+                    <h2 class="kk-title">Sản Phẩm Có Sẵn</h2>
+                </div>
             <div class="kkspecial-list bottom-to-top hb-animate-element">
                 <div class="row">
                     <div id="infinityspecial-carousel" class="owl-carousel">
@@ -659,6 +692,7 @@
                 </div>
             </div>
         </section>
+
     </div>
 </div>
 
@@ -882,7 +916,9 @@
 
     <div class="kkmanufacturer container hb-animate-element bottom-to-top clearfix">
 
-        <h3 class="kk-title">Thương hiệu phổ biến</h3>
+        <div class="producttab">
+                    <h2 class="kk-title">Thương hiệu phổ biến</h2>
+                </div>
 
 
         <div class="block_content row">

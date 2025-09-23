@@ -24,6 +24,6 @@
 @media(max-width:767px){
     .images-container .product-cover img{max-height:380px}
     .kk-producttitle{font-size:18px}
-    .sticky-cta{position:fixed;left:0;right:0;bottom:12px;padding:0 16px;z-index:999}
+   
     .sticky-cta .add-to-cart{width:100%;border-radius:8px}
 }

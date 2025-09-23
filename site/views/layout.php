@@ -485,6 +485,13 @@
                         </div>
                     </div>
                     <div class="js-top-menu mobile" id="_mobile_top_menu"></div>
+                    
+                    <div class="mobile-search-wrapper" style="padding:8px 12px;">
+                        <form action="<?=ROOT_URL?>/" method="get" class="mobile-search-form" style="display:flex;">
+                            <input name="q" type="search" placeholder="Tìm sản phẩm..." aria-label="Tìm kiếm" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:3px;">
+                            <button type="submit" style="margin-left:8px;padding:6px 10px;background:#333;color:#fff;border:none;border-radius:3px;">Tìm</button>
+                        </form>
+                    </div>
                     <div class="clearfix"></div>
 
                 </div>
@@ -501,7 +508,9 @@
                                 <?php 
                                     $this->model = new Model_home();
                                     $i =0;
+                                                
                                     foreach ($getMenuParent as $row) {
+                          
                                         // show dm cấp 0
                                         if($row['slug'] == "san-pham"){
                                             $link = ROOT_URL."/".$row['slug']."/tat-ca/trang-1";
@@ -569,7 +578,14 @@
                                         
                                     }
                                 ?>
+                                   
 
+                                    <li class="category form-search" id="category-33">
+                                            <form action="<?=ROOT_URL?>/" method="get" class="mobile-search-form" style="display:flex;">
+                                            <input name="q" type="search" placeholder="Tìm sản phẩm..." aria-label="Tìm kiếm" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:3px;">
+                                            <button type="submit" style="margin-left:8px;padding:6px 10px;background:#333;color:#fff;border:none;border-radius:3px;">Tìm</button>
+                                        </form>
+                                    </li>
 
                             </ul>
 

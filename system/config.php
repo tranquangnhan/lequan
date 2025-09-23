@@ -14,6 +14,11 @@ define('PAGE_SIZE_PRO',20);
 define('PATH_IMG_SITE','../uploads/');
 session_start();
 
+// Twilio configuration - replace with real credentials
+define('TWILIO_SID', 'AC04ef80f1fb562b04bd924a6f3053e410');
+define('TWILIO_TOKEN', 'cabac450e4b5a72d9e070965005ba7e6');
+define('TWILIO_FROM', '+84924698776'); // Twilio phone number in E.164 format
+
 // if (!isset($_SESSION['lang']))
 // 		$_SESSION['lang'] = "en";
 // 	else if (isset($_GET['lang']) && $_SESSION['lang'] != $_GET['lang'] && !empty($_GET['lang'])) {

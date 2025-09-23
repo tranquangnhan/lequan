@@ -21,7 +21,17 @@ class Model_home extends Model_db{
     }
     function getAllProSpecial()
     {
-        $sql = "SELECT * FROM product ORDER BY view DESC LIMIT 10";
+        $sql = "SELECT * FROM product WHERE cosan = 1 LIMIT 10";
+        return $this->result1(0,$sql);
+    }
+      function getProPhuKien()
+    {
+        $sql = "SELECT * FROM product WHERE `catalog_id` = 8 LIMIT 10";
+        return $this->result1(0,$sql);
+    }
+        function getProQuanAo()
+    {
+        $sql = "SELECT * FROM product WHERE `catalog_id` = 7 LIMIT 10";
         return $this->result1(0,$sql);
     }
     function getAllProByDeal(){
@@ -153,7 +163,7 @@ class Model_home extends Model_db{
       return $this->result1(0,$sql,$id);
    }
 
-   function Page($TotalProduct, $CurrentPage,$PageSize,$BaseLink)
+    function Page($TotalProduct, $CurrentPage,$PageSize = 5,$BaseLink = 'tat-ca')
    {
 
        $LimitPage = $PageSize; // 5 sản phẩm 2 trang
@@ -266,6 +276,42 @@ class Model_home extends Model_db{
        }
 
        return $PagedHTML.$NextButton.$LastButton;
+   }
+   // Compatibility wrapper used by controller->cat(): count products matching optional search
+   function countAllProductSearch($query)
+   {
+        $sql = "SELECT count(*) AS sodong FROM product WHERE 1";
+        $params = array();
+        if ($query != NULL && trim($query) != ""){
+            $sql .= " AND (name LIKE ? OR description LIKE ? OR slug LIKE ?)";
+            $q = "%".trim($query)."%";
+            return $this->result1(1,$sql,$q,$q,$q)['sodong'];
+        }
+        return $this->result1(1,$sql)['sodong'];
+   }
+
+   // Compatibility wrapper used by controller->cat(): get paginated product list for search
+   function GetProductList($slug,$CurrentPage,$query)
+   {
+        $sql = "SELECT * FROM product WHERE 1";
+        $params = array();
+        if ($query != NULL && trim($query) != ""){
+            $sql .= " AND (name LIKE ? OR description LIKE ? OR slug LIKE ?)";
+            $q = "%".trim($query)."%";
+            $params = array($q,$q,$q);
+        }
+        $sql .= " ORDER BY id DESC";
+        $offset = 0;
+        $limit = defined('PAGE_SIZE_PRO') ? PAGE_SIZE_PRO : 10;
+        if ($CurrentPage && (int)$CurrentPage > 0){
+            $offset = ((int)$CurrentPage - 1) * $limit;
+        }
+        $sql .= " LIMIT ".intval($offset).",".intval($limit);
+        if (!empty($params)){
+            return call_user_func_array(array($this,'result1'), array_merge(array(0,$sql), $params));
+        }else{
+            return $this->result1(0,$sql);
+        }
    }
    function PageNotCate($TotalProduct, $CurrentPage,$PageSize,$BaseLink)
    {
@@ -593,6 +639,49 @@ class Model_home extends Model_db{
             return false;
         }
   }
+  
+      // Send SMS via Twilio REST API
+      function sendSmsTwilio($to, $body)
+      {
+            // Ensure config constants exist
+            if(!defined('TWILIO_SID') || !defined('TWILIO_TOKEN') || !defined('TWILIO_FROM')){
+                return false;
+            }
+
+            $sid = TWILIO_SID;
+            $token = TWILIO_TOKEN;
+            $from = TWILIO_FROM;
+
+            $url = "https://api.twilio.com/2010-04-01/Accounts/" . $sid . "/Messages.json";
+
+            $data = http_build_query([
+                'To' => $to,
+                'From' => $from,
+                'Body' => $body
+            ]);
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_USERPWD, $sid . ':' . $token);
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
+            $response = curl_exec($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $err = curl_error($ch);
+            curl_close($ch);
+
+            if ($response === false) {
+                return ['success' => false, 'error' => $err];
+            }
+
+            $json = json_decode($response, true);
+            if ($httpcode >= 200 && $httpcode < 300) {
+                return ['success' => true, 'data' => $json];
+            }
+            return ['success' => false, 'status' => $httpcode, 'response' => $json];
+      }
   function getProductFromIdBill($id){
       $sql ="SELECT idDH FROM donhang WHERE keybill =?";
       $kq = $this->result1(1,$sql,$id)['idDH'];

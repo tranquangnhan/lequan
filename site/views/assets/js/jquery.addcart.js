@@ -63,11 +63,17 @@ function addCart(id) {
     } else {
         $.post("controllers/ajax/addcart.php", { id: id, sl: sl, size: size, mausac: mausac },
             function(data) {
-                Swal.fire({
+               Swal.fire({
                     icon: 'success',
                     title: 'Yeah',
                     text: 'Thêm giỏ hàng thành công',
-                })
+                }).then(() => {
+                    // Sau khi bấm OK hoặc Swal đóng lại
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // cuộn mượt
+                    });
+                });
                 $('#_desktop_cart').html(data);
                 $('#_mobile_cart').html(data);
                 cart()

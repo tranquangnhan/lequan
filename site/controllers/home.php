@@ -62,7 +62,8 @@
            $getAllProByDeal =  $this->model->getAllProByDeal();
            $getMenuParent = $this->model->getMenuParent();
 		   $getMenuParentdoc = $this->model->getMenuParentdoc();
-		   
+		   $getProPhuKien   =$this->model->getProPhuKien();
+		   $getProQuanAo    =$this->model->getProQuanAo();
            $page_title ="Lê Quân Sneaker";
            $viewFile = "views/home.php";
            require_once "views/layout.php";  
@@ -116,28 +117,22 @@
            require_once "views/layout.php";  
         }
         function cat(){
-   
-            $producer = $this->model->getAllProducer();
+			 $getMenuParent = $this->model->getMenuParent();
          
             $slug = $_GET['slug'];
             
-            if(isset($_GET['to'])) $to = $_GET['to']; else $to = NULL;
-            if(isset($_GET['from'])) $from = $_GET['from']; else $from = NULL;
-            if(isset($_POST['hot'])) $hot = $_POST['hot']; else $hot = NULL;
    
             if (isset($_GET['Page'])) $CurrentPage = $_GET['Page']; else $CurrentPage = 1;
             
             if(isset($_GET['q'])) $query = $_GET['q']; else $query = NULL;
    
-            $TotalProduct = $this->model->countAllPhone($slug,$from,$to,$hot,$query);
-    
+            $TotalProduct = $this->model->countAllProductSearch($query);
             if($TotalProduct == 0) $TotalProduct =1;
       
-            $ProductList = $this->model-> GetProductList($slug,$CurrentPage,$from,$to,$hot,$query);
+            $ProductList = $this->model-> GetProductList($slug,$CurrentPage,$query);
             
-    
             $Pagination =  $this->model->Page($TotalProduct, $CurrentPage);
-   
+			
             $viewFile ="views/shop.php";
             require_once "views/layout.php";
         }
@@ -474,6 +469,12 @@
 			  $giohang = $_SESSION['cart'];
 unset($_SESSION['cart']);
 			  $this->model->luugiohangnhe($idDH, $giohang);
+			  // Send SMS notification after successful order save
+			  // Note: Twilio requires E.164 phone format. Using +84792169354 (Vietnam mobile)
+			  $smsTo = '+84792169354';
+			  $smsBody = 'Bạn có đơn hàng từ: '.$phone.'. vào admin kiểm tra nha.';
+			  $smsResult = $this->model->sendSmsTwilio($smsTo, $smsBody);
+			  // optionally log or ignore $smsResult
 			  header('location: '.ROOT_URL.'/donecheckout');
 		   }  
 			   

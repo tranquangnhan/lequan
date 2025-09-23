@@ -1,6 +1,107 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i);
-@import url(https://fonts.googleapis.com/css?family=Philosopher:400,400i,700,700i);
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-Regular.ttf?v=3903')  ;
+}
+ /* src: url('./assets/App/fonts/MuliDisplayVN-Regular.ttf?v=3903') */
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 500;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-SemiBold.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 700;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-Bold.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 800;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-ExtraBold.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 900;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-Black.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 300;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-Light.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 200;
+    font-style: normal;
+    src: url('../fonts/MuliDisplayVN-ExtraLight.ttf?v=3903')
+}
+
+
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 400;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-Italic.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 500;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-SemiBoldItalic.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 700;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-BoldItalic.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 800;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-ExtraBoldItalic.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 900;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-BlackItalic.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 300;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-LightItalic.ttf?v=3903')
+}
+
+@font-face {
+    font-family: MuliDisplayVN;
+    font-weight: 200;
+    font-style: italic;
+    src: url('../fonts/MuliDisplayVN-ExtraLightItalic.ttf?v=3903')
+}
+
+
+
 
 :root{
     --primary-color: #033888;
@@ -8,13 +109,13 @@
     --text-color: #878787;
     --text-light-color: #ff6b6b;
     --background-color: #fff;
-    --font-family: 'Poppins', sans-serif;
+    --font-family: MuliDisplayVN, sans-serif;
     --font-family-alt: 'Philosopher', serif;
-    --font-family-mono: 'Montserrat', monospace;
 }
 body,
 img {
     max-width: 100%;
+    font-family: var(--font-family);
 }
 
 :root {
@@ -287,7 +388,7 @@ img {
 }
 
 html {
-    font-family: sans-serif;
+    /* font-family: sans-serif; */
     line-height: 1.15;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%
@@ -607,12 +708,13 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", poppins, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.5;
-    letter-spacing: .5px;
-    color: #878787;
-    background-color: #fff
+       font-family: 'MuliDisplayVN', 'Times New Roman';
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, 0.85);
+    background-color: #fff;
+    position: relative;
+    font-weight: 400;
 }
 
 [tabindex="-1"]:focus {
@@ -4052,9 +4154,7 @@ tbody.collapse.in {
     margin-left: 0
 }
 
-.tab-content>.tab-pane {
-    display: none
-}
+
 
 .tab-content>.active {
     display: block
@@ -5808,7 +5908,6 @@ button.close {
     position: absolute;
     z-index: 1070;
     display: block;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, poppins, Helvetica Neue, Arial, sans-serif;
     font-style: normal;
     letter-spacing: normal;
     line-break: auto;
@@ -5919,7 +6018,6 @@ button.close {
     display: block;
     max-width: 276px;
     padding: 1px;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Poppins, Helvetica Neue, Arial, sans-serif;
     font-style: normal;
     letter-spacing: normal;
     line-break: auto;
@@ -7059,12 +7157,7 @@ a.text-gray-dark:hover {
     }
 }
 
-@font-face {
-    font-family: Material Icons;
-    font-style: normal;
-    src: url(../css/e79bfd88537def476913f3ed52f4f4b3.eot);
-    src: local("Material Icons"), local("MaterialIcons-Regular"), url(../css/570eb83859dc23dd0eec423a49e147fe.woff2) format("woff2"), url(../css/012cf6a10129e2275d79d6adac7f3b02.woff) format("woff"), url(../css/a37b0c01c0baf1888ca812cc0508f6e2.ttf) format("truetype")
-}
+
 
 .material-icons {
     font-family: 'Material Icons';
@@ -7093,7 +7186,6 @@ html {
 
 body {
     direction: ltr;
-    font-family: 'Montserrat', sans-serif !important;
     font-size: .875rem;
     font-weight: 600;
     -webkit-font-smoothing: antialiased;
@@ -9316,12 +9408,15 @@ body#checkout #gift_message textarea {
 .featured-products .product-title a,
 .product-accessories .product-title a,
 .product-miniature .product-title a {
-    color: #000;
-    font-size: 14px;
-    letter-spacing: .7px;
-    text-decoration: none;
+    color: #000000;
     text-align: center;
-    text-transform: capitalize
+    font-size: 14px;
+    margin-bottom: 0;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 400 ;
 }
 
 #products .product-title>a:hover,
@@ -9436,9 +9531,6 @@ body#checkout #gift_message textarea {
     -ms-transform: translateY(0)
 }
 
-.product-miniature .thumbnail-container:hover .product-description .product-price-and-shipping {
-    opacity: 0
-}
 
 .products .product-list .thumbnail-container:hover .product-description .product-price-and-shipping {
     opacity: 1
@@ -9593,8 +9685,10 @@ body#checkout #gift_message textarea {
 .featured-products .product-price-and-shipping,
 .product-accessories .product-price-and-shipping,
 .product-miniature .product-price-and-shipping {
-    color: #000;
-    font-weight: 600
+    color: #000000;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 #products .variant-links,
@@ -13380,12 +13474,13 @@ li.product-flag:not(.discount):not(.on-sale)~li.product-flag {
 }
 
 .kk-title {
-    color: #333;
+    color: #252a2b;
     margin: 0 0 10px 0;
     padding: 0 0 7px 0;
     /* position: relative; */
     text-transform: uppercase;
-    text-align: center
+    text-align: center;
+    font-weight: normal;
 }
 
 .kk-producttitle {
@@ -13568,7 +13663,6 @@ li.product-flag:not(.discount):not(.on-sale)~li.product-flag {
 
 #top-menu>li>a {
     padding: 15px 16px;
-    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     color: #000;
     letter-spacing: .5px
@@ -14289,16 +14383,7 @@ li.product-flag:not(.discount):not(.on-sale)~li.product-flag {
     height: 85%
 }
 
-@media (max-width:991px) {
-    .kk_sub_banner,
-    .center-banner {
-        bottom: 0;
-        text-align: center
-    }
-    .center-banner {
-        margin-bottom: 0
-    }
-}
+
 
 @media (max-width:767px) {
     .kkmultibanner-1 {
@@ -18197,7 +18282,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #kkproductsblock .kkproductsblock-container .kk-title,
 .producttab .kk-title {
-    margin: 0 0 20px 0;
+    margin: 3px 0 20px 0;
     padding: 0 0 0 10px;
     text-align: center;
     border: medium none
@@ -22307,9 +22392,9 @@ html[xmlns] .flexslider .slides {
 }
 
 .banner2 img {
-    width: 100%;
-    height: 270px;
-    max-height: 300px;
+     width: 100%;
+    height: auto;
+    max-height: 366px;
     object-fit: cover;
 }
 
@@ -22520,6 +22605,45 @@ html[xmlns] .flexslider .slides {
     object-fit: cover;
 }
 
+.form-search {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 0.3rem;
+  position: absolute;
+  right: 0;
+}
+
+.form-search input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px 0 0 8px;
+  font-size: 10px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-search input:focus {
+  border-color: #007bff;
+}
+
+.form-search button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.form-search button:hover {
+  background-color: #0056b3;
+}
+
 @media screen and (max-width:860px) {
     .flex-direction-nav .flex-prev {
         opacity: 1
@@ -22670,9 +22794,7 @@ html[xmlns] .flexslider .slides {
     display: block
 }
 
-.product-title a {
-    font-weight: 600 !important;
-}
+
 
 #left-column .all-product-link:hover,
 #right-column .all-product-link:hover {
@@ -22898,24 +23020,23 @@ html[xmlns] .flexslider .slides {
     margin: 30px 0;
     background: #ffffff;
 }
-
-.kkmanufacturer .kk-title {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    position: relative;
+.hr {
+    margin: 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    border-top: 1px solid #eee;
+    height: 1px;
 }
 
-.kkmanufacturer .kk-title:after {
+
+ .kk-title:after {
     content: '';
-    width: 80px;
-    height: 3px;
-    background: #ff6b6b;
+    width: 100px;
+    height: 1px;
+    background: #000000;
     position: absolute;
-    bottom: -10px;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -23477,4 +23598,150 @@ html[xmlns] .flexslider .slides {
 
 .modal-footer {
     border-top: 1px solid #eee;
+}
+.mt-1{
+    margin-top: 4rem;
+}
+.pt-1{
+    padding-top: 1rem;
+}
+
+
+
+
+/* Custom responsive banner styles */
+.kkimgslider {
+    margin-bottom: 20px;
+}
+
+.flexslider .slides img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Ensure banner images are responsive and maintain aspect ratio */
+.center-banner .slider.banner2 img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Adjust spacing and layout for mobile */
+@media (max-width: 767px) {
+    .banner{
+        width: 100% !important;
+        padding: 0;
+      
+    }
+    .banner img{
+                border-radius: 8px;
+    }
+   
+  
+    .flexslider {
+        margin-bottom: 0;
+    }
+    .slides{
+        display: flex;
+        gap: 10px;
+    }
+    .flexslider .slides img {
+        width: 100%;
+        height: 200px; /* Control height on mobile */
+    }
+
+    /* Stack banner images vertically on mobile */
+    .center-banner .slider.banner2 {
+        margin-bottom: 15px;
+        padding: 0 10px;
+    }
+
+    .center-banner .slider.banner2:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Ensure overlay effect works on mobile */
+    .slider.banner2 {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .slider.banner2 .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.2);
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 8px;
+    }
+
+    .slider.banner2:hover .overlay {
+        opacity: 1;
+    }
+
+    .slider.banner2:hover img {
+        transform: scale(1.05);
+    }
+    .d-flex{
+        display: flex;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 991px) {
+     .kk_sub_banner,
+    .center-banner {
+        bottom: 0;
+        text-align: center
+    }
+    .center-banner {
+        margin-bottom: 0
+    }
+    .center-banner .slider.banner2 {
+        margin-bottom: 20px;
+    }
+    
+    .center-banner .slider.banner2 img {
+        height: 180px;
+    }
+        .center-banner {
+        display: flex;
+        gap: 20px;
+    }
+     .slides{
+        display: flex;
+        gap: 10px;
+    }
+     .d-flex{
+        display: flex;
+    }
+}
+
+/* Desktop refinements */
+@media (min-width: 992px) {
+    .d-flex{
+        display: flex;
+    }
+    .kkimgslider {
+        margin-bottom: 30px;
+    }
+    
+    .center-banner .slider.banner2 img {
+        height: 250px;
+    }
+    
+    .center-banner {
+        display: flex;
+        gap: 20px;
+    }
+     .slides{
+        display: flex;
+        gap: 10px;
+    }
 }
