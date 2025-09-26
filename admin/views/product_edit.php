@@ -74,10 +74,16 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="">Màu</label> 
-                                                    <input type="text" class="form-control" value="<?=$oneRecode['color']?>" name="color"  placeholder="#000,#fff,#999,..." id="color">
-                                                    <span id="ErrorColor"></span>
-                                                </div> 
+                                                    <label for="">Màu</label>
+                                                    <div class="color-picker-container">
+                                                        <input type="color" id="colorPicker" class="form-control" style="height: 40px;">
+                                                        <button type="button" class="btn btn-primary ml-2" id="addColor">Thêm màu</button>
+                                                    </div>
+                                                    <div id="selectedColors" class="mt-2 d-flex flex-wrap">
+                                                        <!-- Selected colors will appear here -->
+                                                    </div>
+                                                    <input type="hidden" name="color" id="colorInput" value="<?=$oneRecode['color']?>">
+                                                </div>
                                             </div>
                                         </div>
 
@@ -174,4 +180,6 @@
                     </div>
                 </div>
             </div>
+<link href="<?=ROOT_URL?>/admin/views/assets/css/color-picker.css" rel="stylesheet" type="text/css" />
 <script src="<?=ROOT_URL?>/admin/views/assets/js/custom_editproduct.js"></script>
+<script src="<?=ROOT_URL?>/admin/views/assets/js/color-picker.js"></script>

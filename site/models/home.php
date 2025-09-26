@@ -19,6 +19,55 @@ class Model_home extends Model_db{
         $sql = "SELECT * FROM catalog WHERE parent =$id and style=1 ";
         return $this->result1(0,$sql);
     }
+     
+
+    // Hàm gợi ý sản phẩm dựa vào hành vi người dùng
+    function getRecommendedProducts($userId, $currentProductId) {
+        // Lấy thông tin sản phẩm hiện tại
+        $sql = 'SELECT catalog_id, price FROM product WHERE id = ?';
+        $currentProduct = $this->result1(1, $sql, $currentProductId);
+       
+        if (!$currentProduct) return array();
+         // Ép kiểu dữ liệu để tránh SQL injection
+        $catalogId = (int) $currentProduct['catalog_id'];
+        $price     = (float) $currentProduct['price'];
+        $currentId = (int) $currentProductId;
+        $limit     = 10;
+
+        // Tính khoảng giá
+        $priceMin = $price * 0.7;
+        $priceMax = $price * 1.3;
+      
+        // Query lấy sản phẩm tương tự dựa trên nhiều yếu tố
+
+            $sql = 'SELECT 
+                    p.*, 
+                    (CASE 
+                        WHEN p.catalog_id =  '.$currentProduct['catalog_id'].' THEN 40
+                        WHEN p.price BETWEEN '.$currentProduct['price'].' * 0.7 AND '.$currentProduct['price'].' * 1.3 THEN 30
+                        WHEN p.hot = 1 THEN 20
+                        ELSE 0 
+                    END) 
+                    + (CASE 
+                        WHEN p.buyed > 0 THEN p.buyed * 2
+                        ELSE 0
+                    END) 
+                    + (CASE
+                        WHEN p.view > 0 THEN p.view
+                        ELSE 0 
+                    END) AS score
+                FROM product p 
+                WHERE p.id != '.$currentProductId.'
+                AND p.price > 0
+                ORDER BY score DESC 
+                LIMIT 10';
+        return $this->result1(0,$sql);
+    }
+
+  function getOneComment($id){
+        $sql = "SELECT * FROM catalog WHERE parent =$id and style=1 ";
+        return $this->result1(0,$sql);
+    }
     function getAllProSpecial()
     {
         $sql = "SELECT * FROM product WHERE cosan = 1 LIMIT 10";
@@ -33,6 +82,22 @@ class Model_home extends Model_db{
     {
         $sql = "SELECT * FROM product WHERE `catalog_id` = 7 LIMIT 10";
         return $this->result1(0,$sql);
+    }
+        function getGiayCoSan()
+    {
+        $sql = "SELECT * FROM product WHERE `catalog_id` = 6 AND cosan = 0 ORDER BY id DESC LIMIT 10";
+        return $this->result1(0,$sql);
+    }
+    function increaseProductView($productId) {
+    // Ép kiểu để tránh SQL injection
+        $productId = (int) $productId;
+
+        // Query tăng view
+        $sql = "UPDATE product 
+            SET view = COALESCE(view, 0) + 1 
+            WHERE id = $productId";
+    
+        return $this->exec1($sql); 
     }
     function getAllProByDeal(){
         $sql = "SELECT * FROM product ORDER BY discount DESC LIMIT 10";
@@ -590,10 +655,7 @@ class Model_home extends Model_db{
     $sql = "SELECT * FROM binhluan WHERE idDT = ? ORDER BY idDT DESC";
     return $this->result1(0,$sql,$kq);
   }
-  function getOneComment($id){
-    $sql = "SELECT * FROM binhluan WHERE idBL = ?";
-    return $this->result1(1,$sql,$id);
-  }
+
   function getLastIdBill()
   {
     $sql = "SELECT idDH FROM donhang ORDER BY idDH DESC LIMIT 1";

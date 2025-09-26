@@ -137,9 +137,9 @@
         <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top pt-1">
             <div class="kkproductsblock-container">
                 <div class="producttab">
-                    <h2 class="kk-title">GIÀY NAM THỜI TRANG</h2>
-
-                   
+                    <a href="<?=ROOT_URL?>/danh-muc/giay-6/trang-1">
+                        <h2 class="kk-title"> GIÀY NAM THỜI TRANG</h2>
+                   </a>
                 </div>
 
                 <div class="product_content ">
@@ -277,9 +277,10 @@
          <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top">
             <div class="kkproductsblock-container">
                 <div class="producttab">
-                    <h2 class="kk-title">QUẦN ÁO Thời Trang</h2>
 
-                   
+                    <a href="<?=ROOT_URL?>/danh-muc/quan-ao-7/trang-1">
+                        <h2 class="kk-title"> QUẦN ÁO Thời Trang</h2>
+                   </a>
                 </div>
 
                 <div class="product_content ">
@@ -414,8 +415,9 @@
         <div id="kkproductsblock" class="clearfix hb-animate-element bottom-to-top">
             <div class="kkproductsblock-container">
                 <div class="producttab">
-                    <h2 class="kk-title">PHỤ KIỆN THỜI TRANG</h2>
-
+                    <a href="<?=ROOT_URL?>/danh-muc/phu-kien-8/trang-1">
+                      <h2 class="kk-title">PHỤ KIỆN THỜI TRANG</h2>
+                   </a>                    
                    
                 </div>
 
@@ -569,13 +571,13 @@
         <section class="container infinityspecial-products hb-animate-element bottom-to-top  clearfix">
 
                  <div class="producttab">
-                    <h2 class="kk-title">Sản Phẩm Có Sẵn</h2>
+                    <h2 class="kk-title">GIÀY CÓ SẴN TẠI CỬA HÀNG</h2>
                 </div>
             <div class="kkspecial-list bottom-to-top hb-animate-element">
                 <div class="row">
                     <div id="infinityspecial-carousel" class="owl-carousel">
                         <?php 
-                          foreach ($getAllProSpecial as $row) {
+                          foreach ($getGiayCoSan as $row) {
                               if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[0])){
                                   $img = PATH_IMG_SITE.explode(",",$row['image_list'])[0];
                               }else{

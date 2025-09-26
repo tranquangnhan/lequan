@@ -106,6 +106,7 @@ class Product{
             }
             
             $color = $_POST['color'];
+         
             $size = $_POST['size'];
             $brand = $_POST['brand'];
             $brand = $this->lib->slug($brand);

@@ -230,17 +230,16 @@
                                                  $h++;
                                                      foreach ($getCateBrand2 as $row) {
                                                          echo '  <li>
-                                                                     <label class="facet-label" for="facet_input_21014_0'.$i.'">
+                                                                   
                                                                          <span class="custom-checkbox">
                                                                              <input id="facet_input_21014_0'.$i.'" type="checkbox" value="'.$row['slug'].'-'.$key['hangcosan'].'" class="common_selector brand">
                                                                              <span class="ps-shown-by-js">
                                                                              <i class="material-icons rtl-no-flip checkbox-checked">&#xE5CA;</i></span>
                                                                          </span>
- 
-                                                                         <a class="_gray-darker search-link js-search-link">
-                                                                             '.$row['name'].'
+                                                                    <label class="facet-label" for="facet_input_21014_0'.$i.'">
                                                                          
-                                                                         </a>
+                                                                             '.$row['name'].'
+                                                                        
                                                                      </label>
                                                                  </li>';
                                                      $i++;

@@ -15,7 +15,7 @@ if(is_array($sp)){
 
     <div class="container">
         <div class="row">
-            <div id="content-wrapper" class="col-xs-12" style="margin-top:2rem">
+            <div id="content-wrapper" class="col-xs-12 mobile-rp" style="margin-top:2rem">
 
 
 
@@ -254,6 +254,7 @@ if(is_array($sp)){
                                                        
                                                          Thêm giỏ hàng
                                                     </button>
+                                                       <button id="openBookingBtn" class="btn-open">Đặt lịch thử giày</button>
                                                 </div>
 
 
@@ -266,6 +267,7 @@ if(is_array($sp)){
                                                 Trong kho
                                             </span>
 
+                                          
 
 
                                             <p class="product-minimal-quantity">
@@ -279,21 +281,29 @@ if(is_array($sp)){
 
 
                                             <div class="social-sharing">
-                                                Chia sẻ
-                                                <ul>
-                                                    <?php 
+                                                Chia sẻ 
+                        
+                                                  <div class="social-icons">
+                                                     <?php 
                                                     $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                                     ?>
-                                                    <li class="facebook icon-gray"><a
-                                                            href="http://www.facebook.com/sharer.php?u=<?=$actual_link?>"
-                                                            class="text-hide" title="Share" target="_blank">Share</a>
-                                                    </li>
-                                                    <li  class=" zalo-share-button" data-href="<?=$actual_link?>" style="overflow: hidden; display: inline-block; width: 70px; height: 20px;" data-oaid="579745863508352884" data-layout="2" data-color="blue" data-customize=false>
-                                                    
-                                                    </li>
-                                                     
+                                                    <!-- Zalo -->
+                                                    <a href="http://www.facebook.com/sharer.php?u=<?=$actual_link?>" target="_blank" class="zalo-btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 48 48">
+                                                        <path d="M24 4C12.96 4 4 12.96 4 24c0 11.04 8.96 20 20 20 11.04 0 20-8.96 20-20 0-11.04-8.96-20-20-20zm0 2c9.94 0 18 8.06 18 18s-8.06 18-18 18S6 33.94 6 24 14.06 6 24 6z"/>
+                                                        <text x="50%" y="60%" text-anchor="middle" fill="white" font-size="14" font-family="Arial" font-weight="bold">Z</text>
+                                                    </svg>
+                                                    Zalo
+                                                    </a>
 
-                                                </ul>
+                                                    <!-- Facebook -->
+                                                    <a href="http://www.facebook.com/sharer.php?u=<?=$actual_link?>" target="_blank" class="fb-btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 48 48">
+                                                        <path d="M24 4C12.95 4 4 12.95 4 24c0 10.1 7.45 18.45 17.1 19.85V30.3h-5.15v-6.3h5.15v-4.65c0-5.05 3-7.8 7.55-7.8 2.15 0 4.4.4 4.4.4v4.85h-2.5c-2.45 0-3.2 1.5-3.2 3.05v4.15h5.45l-.9 6.3h-4.55v13.55C36.55 42.45 44 34.1 44 24c0-11.05-8.95-20-20-20z"/>
+                                                    </svg>
+                                                    Facebook
+                                                    </a>
+                                                </div>
                                             </div>
 
 
@@ -309,21 +319,21 @@ if(is_array($sp)){
                                             <div class="block-reassurance-item">
                                                 <img src="views/assets/img/ic_verified_user_black_36dp_1x.png"
                                                     alt="Security policy (edit with Customer reassurance module)">
-                                                <span class="h6">Bảo mật</span>
+                                                <span class="h6">Bảo hành keo vĩnh viễn</span>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="block-reassurance-item">
                                                 <img src="views/assets/img/ic_local_shipping_black_36dp_1x.png"
                                                     alt="Delivery policy (edit with Customer reassurance module)">
-                                                <span class="h6">Giao hàng</span>
+                                                <span class="h6">Giao hàng tận nơi, nhận hàng xong thanh toán</span>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="block-reassurance-item">
                                                 <img src="views/assets/img/ic_swap_horiz_black_36dp_1x.png"
                                                     alt="Return policy (edit with Customer reassurance module)">
-                                                <span class="h6">Đổi trả</span>
+                                                <span class="h6">Đổi trả dễ dàng<br>(trong vòng 7 ngày nếu lỗi nhà sản xuất)</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -382,13 +392,23 @@ if(is_array($sp)){
 
                     <section class="container  hb-animate-element bottom-to-top ">
 
-                    <h3 class="kk-title">Sản phẩm liên quan</h3>
+                   <div class="producttab">
+                    <h2 class="kk-title">Sản phẩm liên quan</h2>
+
+                   
+                 </div>
 
                     <div class="kkspecial-list bottom-to-top hb-animate-element">
                         <div class="row">
                             <div id="infinityspecial-carousel" class="owl-carousel">
                                 <?php 
-                                foreach ($getAllProSpecial as $row) {
+                                // Gợi ý sản phẩm dựa vào hành vi người dùng
+                                $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+                                $currentProductId = isset($sp['id']) ? $sp['id'] : null;
+                                $getRecommendedProducts = $this->model->getRecommendedProducts($userId, $currentProductId);
+                                // print_r($getRecommendedProducts);
+                                // die();
+                                foreach ($getRecommendedProducts as $row) {
                                     if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[0])){
                                         $img = PATH_IMG_SITE.explode(",",$row['image_list'])[0];
                                     }else{
@@ -397,7 +417,7 @@ if(is_array($sp)){
                                     if(is_file(PATH_IMG_SITE.explode(",",$row['image_list'])[1])){
                                         $imgCover = PATH_IMG_SITE.explode(",",$row['image_list'])[1];
                                     }else{
-                                        PATH_IMG_SITE.explode(",",$row['image_list'])[0];
+                                        $imgCover = PATH_IMG_SITE.explode(",",$row['image_list'])[0];
                                     }
                                     if($row['new'] == 1){
                                     $new = ' <li class="product-flag new">New</li>';
@@ -565,3 +585,112 @@ if(is_array($sp)){
     echo 'Sản phẩm này không có !';
 }
 ?>
+
+
+<!-- Nút mở modal -->
+
+<!-- Modal overlay -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span id="closeModal" class="close-btn">&times;</span>
+    <form id="bookingForm">
+      <!-- Hidden product ID -->
+      <input type="hidden" name="idsanpham" id="idsanpham" value="">
+
+      <h2>Đặt lịch thử</h2>
+
+      <!-- Họ tên -->
+      <div class="form-group">
+        <label for="name">Họ và tên</label>
+        <input type="text" id="name" name="name" placeholder="Nhập họ tên" required>
+      </div>
+
+      <!-- Số điện thoại -->
+      <div class="form-group">
+        <label for="phone">Số điện thoại</label>
+        <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+      </div>
+
+      <!-- Size muốn thử -->
+      <div class="form-group">
+        <label for="size">Size muốn thử</label>
+        <input type="text" id="size" name="size" placeholder="Ví dụ: 39, M, L..." required>
+      </div>
+
+      <!-- Thời gian thử -->
+      <div class="form-group">
+        <label for="time">Thời gian thử</label>
+        <input type="datetime-local" id="time" name="time" required>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">Đặt lịch thử</button>
+    </form>
+
+    <!-- Đặt lịch qua MXH -->
+    <div class="social-booking">
+      <p>Hoặc đặt lịch qua:</p>
+      <div class="social-icons">
+        <!-- Zalo -->
+        <a href="https://zalo.me/yourZaloID" target="_blank" class="zalo-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 48 48">
+            <path d="M24 4C12.96 4 4 12.96 4 24c0 11.04 8.96 20 20 20 11.04 0 20-8.96 20-20 0-11.04-8.96-20-20-20zm0 2c9.94 0 18 8.06 18 18s-8.06 18-18 18S6 33.94 6 24 14.06 6 24 6z"/>
+            <text x="50%" y="60%" text-anchor="middle" fill="white" font-size="14" font-family="Arial" font-weight="bold">Z</text>
+          </svg>
+          Zalo
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://m.me/yourFacebookPage" target="_blank" class="fb-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 48 48">
+            <path d="M24 4C12.95 4 4 12.95 4 24c0 10.1 7.45 18.45 17.1 19.85V30.3h-5.15v-6.3h5.15v-4.65c0-5.05 3-7.8 7.55-7.8 2.15 0 4.4.4 4.4.4v4.85h-2.5c-2.45 0-3.2 1.5-3.2 3.05v4.15h5.45l-.9 6.3h-4.55v13.55C36.55 42.45 44 34.1 44 24c0-11.05-8.95-20-20-20z"/>
+          </svg>
+          Facebook
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+// Lấy id sản phẩm từ URL (nếu có)
+const urlParams = new URLSearchParams(window.location.search);
+document.getElementById("idsanpham").value = urlParams.get("idsanpham") || "";
+
+// Modal logic
+const modal = document.getElementById("bookingModal");
+const openBtn = document.getElementById("openBookingBtn");
+const closeBtn = document.getElementById("closeModal");
+
+openBtn.onclick = () => {
+  modal.style.display = "flex";
+
+  // Set mặc định: ngày mai 09:00
+  const timeInput = document.getElementById("time");
+  const now = new Date();
+  now.setDate(now.getDate() + 1); // ngày mai
+  now.setHours(9,0,0,0); // 09:00
+  timeInput.value = now.toISOString().slice(0,16);
+};
+
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+// Submit form
+document.getElementById("bookingForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const data = {
+    idsanpham: document.getElementById("idsanpham").value,
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    size: document.getElementById("size").value,
+    time: document.getElementById("time").value
+  };
+  console.log("Data gửi đi:", data);
+  alert("Đặt lịch thử thành công!");
+  modal.style.display = "none";
+  this.reset();
+});
+</script>

@@ -6300,3 +6300,21 @@ a#cke_Upload_463 {
     color: red;
     font-size: 13px;
 }
+
+.color-picker-container {
+    display: flex;
+    align-items: center;
+}
+
+.color-picker-container input[type="color"] {
+    padding: 0;
+    width: 100px;
+}
+
+#selectedColors {
+    gap: 10px;
+    min-height: 40px;
+    padding: 5px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+}

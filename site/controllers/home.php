@@ -64,7 +64,7 @@
 		   $getMenuParentdoc = $this->model->getMenuParentdoc();
 		   $getProPhuKien   =$this->model->getProPhuKien();
 		   $getProQuanAo    =$this->model->getProQuanAo();
-           $page_title ="Lê Quân Sneaker";
+		   $getGiayCoSan    =$this->model->getGiayCoSan();          
            $viewFile = "views/home.php";
            require_once "views/layout.php";  
         }
@@ -106,7 +106,9 @@
            
            $slug = $_GET['slug'];
          
-           $sp = $this->model->getOnePro($slug);   
+           $sp = $this->model->getOnePro($slug);  
+		   $this->model->increaseProductView($sp['id']);
+		 
            $viewFile = "views/Product-Detail.php";     
            require_once "views/layout.php";  
         }

@@ -1,29 +1,258 @@
 /* Custom product detail styles inspired by MWC */
-:root{
-    --brand-color: rgba(0, 0, 0, 0.85); /* dark slate */
-    --accent: #0f766e; /* teal */
+:root {
+    --brand-color: rgba(0, 0, 0, 0.85);
+    /* dark slate */
+    --accent: #0f766e;
+    /* teal */
     --muted: #6b7280;
 }
-.images-container{display:flex;flex-direction:column;gap:12px}
-.product-cover img{border-radius:8px;box-shadow:0 6px 18px rgba(15,23,42,0.08);max-height:560px;object-fit:contain}
-.product-images{display:flex;gap:8px;overflow-x:auto;padding:6px 0}
-.product-images .thumb{border-radius:6px;border:1px solid #e6e6e6;padding:4px;cursor:pointer;opacity:0.9}
-.product-images .thumb.selected{outline:3px solid var(--accent);opacity:1}
-.kk-producttitle{font-size:22px;color:var(--brand-color);font-weight:700;margin-bottom:8px}
-.product-prices .current-price{font-size:20px;color:var(--accent);font-weight:700}
-.product-prices .current-price span[style*="line-through"]{color:var(--muted);font-size:14px}
-.product-variants .control-label{display:block;margin-bottom:8px;font-weight:600;color:#111}
-.input-color{display:none}
-.input-color + .color{display:inline-block;width:36px;height:36px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.08);cursor:pointer}
-.input-color:checked + .color{box-shadow:0 0 0 3px rgba(15,118,110,0.12), 0 2px 8px rgba(15,23,42,0.12)}
-.add-to-cart{background:var(--accent);border-color:var(--accent);padding:12px 18px;font-weight:700}
-.add-to-cart:hover{background:#0e6e67}
-.product-add-to-cart .qty input{width:80px;padding:8px;border:1px solid #e5e7eb;border-radius:6px}
+
+.images-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.product-cover img {
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    max-height: 560px;
+    object-fit: contain
+}
+
+.product-images {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 6px 0
+}
+
+.product-images .thumb {
+    border-radius: 6px;
+    border: 1px solid #e6e6e6;
+    padding: 4px;
+    cursor: pointer;
+    opacity: 0.9
+}
+
+.product-images .thumb.selected {
+    outline: 3px solid var(--accent);
+    opacity: 1
+}
+
+.kk-producttitle {
+    font-size: 22px;
+    color: var(--brand-color);
+    font-weight: 700;
+    margin-bottom: 8px
+}
+
+.product-prices .current-price {
+    font-size: 20px;
+    color: var(--accent);
+    font-weight: 700
+}
+
+.product-prices .current-price span[style*="line-through"] {
+    color: var(--muted);
+    font-size: 14px
+}
+
+.product-variants .control-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #111
+}
+
+.input-color {
+    display: none
+}
+
+.input-color+.color {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    cursor: pointer
+}
+
+.input-color:checked+.color {
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12), 0 2px 8px rgba(15, 23, 42, 0.12)
+}
+
+.add-to-cart {
+    background: var(--it-brand-primary);
+    border-color: var(----it-brand-primary);
+    padding: 12px 18px;
+    font-weight: 700
+}
+
+.add-to-cart:hover {
+    background: #0e6e67
+}
+
+.product-add-to-cart .qty input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px
+}
+
 /* sticky on small screens */
-.sticky-cta{position:sticky;top:80px}
-@media(max-width:767px){
-    .images-container .product-cover img{max-height:380px}
-    .kk-producttitle{font-size:18px}
-   
-    .sticky-cta .add-to-cart{width:100%;border-radius:8px}
+.sticky-cta {
+    position: sticky;
+    top: 80px
+}
+
+
+
+
+
+/* Nút mở modal */
+.btn-open {
+  padding: 0.8rem 1.2rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+ 
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+/* Modal overlay */
+.modal {
+  display: none; /* Ẩn mặc định */
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6); /* nền đen nhẹ */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Nội dung modal */
+.modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  max-width: 420px;
+  width: 90%;
+  position: relative;
+  font-family: sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Nút đóng */
+.close-btn {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Form style */
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+.form-group input {
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+}
+.btn-submit {
+  width: 100%;
+  padding: 0.9rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-submit:hover { background: #1e7e34; }
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Social booking */
+.social-booking {
+  text-align: center;
+  margin-top: 1.2rem;
+}
+.social-booking p {
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.social-icons a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.6rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.zalo-btn { background: #008FE5; }
+.fb-btn { background: #1877f2; }
+
+
+@media(max-width:767px) {
+    .images-container .product-cover img {
+        max-height: 380px
+    }
+
+    .kk-producttitle {
+        font-size: 18px
+    }
+
+    .sticky-cta .add-to-cart {
+        width: 100%;
+        border-radius: 8px
+    }
+   .mobile-rp {
+        margin-top: 0rem !important;
+    }
+    .product-cover{
+      margin-bottom: 0.3rem;
+    }
+    .images-container .product-images>li.thumb-container>.thumb{
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+    .product-images{
+      gap: 6px;
+      padding: 0  ;
+      margin-bottom: 0;
+    }
+    .product-actions .add-to-cart , .product-actions .btn-open{
+      font-size: 10px;
+      padding: 1px 10px;
+    }
 }

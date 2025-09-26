@@ -20356,7 +20356,7 @@ function(a) {
 
 
 jQuery(document).ready(function($) {
-    $('#kk-featured-products.owl-carousel').owlCarousel({ nav: !1, navText: ["<i class='material-icons'></i>", "<i class='material-icons'></i>"], responsive: { 0: { items: kkproductsblock.columnsmobile }, 543: { items: kkproductsblock.columnstablet }, 767: { items: kkproductsblock.columnsmintablet }, 991: { items: kkproductsblock.columnslaptop }, 1200: { items: kkproductsblock.columnsdesktop } } });
+    $('#kk-featured-products.owl-carousel').owlCarousel({ nav: !1, navText: ["<i class='material-icons'></i>", "<i class='material-icons'></i>"], responsive: { 0: { items: 2}, 543: { items: kkproductsblock.columnstablet }, 767: { items: kkproductsblock.columnsmintablet }, 991: { items: kkproductsblock.columnslaptop }, 1200: { items: kkproductsblock.columnsdesktop } } });
     $('#kk-new-products.owl-carousel').owlCarousel({ nav: !1, autoplay: !0, navText: ["<i class='material-icons'></i>", "<i class='material-icons'></i>"], responsive: { 0: { items: kkproductsblock.columnsmobile }, 543: { items: kkproductsblock.columnstablet }, 767: { items: kkproductsblock.columnsmintablet }, 991: { items: kkproductsblock.columnslaptop }, 1200: { items: kkproductsblock.columnsdesktop } } });
     $('#kk-bestseller-products.owl-carousel').owlCarousel({ nav: !1, autoplay: !0, navText: ["<i class='material-icons'></i>", "<i class='material-icons'></i>"], responsive: { 0: { items: kkproductsblock.columnsmobile }, 543: { items: kkproductsblock.columnstablet }, 767: { items: kkproductsblock.columnsmintablet }, 991: { items: kkproductsblock.columnslaptop }, 1200: { items: kkproductsblock.columnsdesktop } } });
     $('#kk-special-products.owl-carousel').owlCarousel({ nav: !1, autoplay: !0, navText: ["<i class='material-icons'></i>", "<i class='material-icons'></i>"], responsive: { 0: { items: kkproductsblock.columnsmobile }, 543: { items: kkproductsblock.columnstablet }, 767: { items: kkproductsblock.columnsmintablet }, 991: { items: kkproductsblock.columnslaptop }, 1200: { items: kkproductsblock.columnsdesktop } } })
@@ -23690,7 +23690,7 @@ $('#infinityspecial-carousel').owlCarousel({
     navText: ['<i class="material-icons"></i>', '<i  class="material-icons"></i>'],
     responsive: {
         0: {
-            items: 1
+            items: 2
         },
         543: {
             items: 2
@@ -23725,7 +23725,7 @@ $('#itspecialdeals-carousel').owlCarousel({
     rewind: !0,
     responsive: {
         0: {
-            items: 1
+            items: 2
         },
         543: {
             items: 1

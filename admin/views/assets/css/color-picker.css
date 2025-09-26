@@ -1,0 +1,41 @@
+.color-picker-container {
+    display: flex;
+    align-items: center;
+}
+
+.color-picker-container input[type="color"] {
+    padding: 0;
+    width: 100px;
+}
+
+#selectedColors {
+    gap: 10px;
+    min-height: 40px;
+    padding: 5px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+}
+
+.color-chip {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.color-chip .remove-color {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
