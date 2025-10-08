@@ -24,10 +24,12 @@
                                         <tbody>
                                         <?php
                                         $stt = 0;
+                                            //  print_r($list[0]);
+                                            //     eixt();
                                             foreach ($list as $row) {
                                                 $stt++;
                                                 $linkEdit = '?ctrl=banner&act=edit&id='.$row['id'];
-                                              
+                                           
                                                 echo '<tr>
                                                         <td>'.$stt.'</td>
                                                         <td><img width="200" height="200"  src="'.PATH_IMG_ADMIN.$row['bannerImage'].'"></td>

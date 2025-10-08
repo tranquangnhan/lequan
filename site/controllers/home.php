@@ -1,5 +1,6 @@
 <?php 
    require_once "../system/config.php";
+   require_once "../lib/notification.php";
 //    require_once "../languages/".$_SESSION['lang'].".php";	
 
    require_once "../system/database.php";
@@ -12,7 +13,8 @@
            $this->model = new model_home();
            $this->modelUser = new Model_user();
            $this->lib = new lib();
-           
+           $this->notification = new NotificationHelper();
+
            if(isset($_GET['q'])){
                $this->cat();
             }
@@ -423,6 +425,7 @@
 			  $result["oidnew"] = $idDH;
 			  $giohang = $_SESSION['cart'];
 			  $this->model->luugiohangnhe($idDH, $giohang);
+
 			  //unset($_SESSION['cart']);
 			  $result["status"] = 200;
 			  
@@ -462,22 +465,35 @@
 		foreach ($_SESSION['cart'] as $row) {
 		   $tongtien += $row[5]*$row[1];
 		}
-	 
 		$idDH = $this->model->luudonhangnhe($idDH,  $hoten, $email,$phone,$address,$note,$tongtien); 
 	  
 		   if ($idDH){
 			  $_SESSION['idDH'] = $idDH;
 			  
 			  $giohang = $_SESSION['cart'];
-unset($_SESSION['cart']);
-			  $this->model->luugiohangnhe($idDH, $giohang);
-			  // Send SMS notification after successful order save
-			  // Note: Twilio requires E.164 phone format. Using +84792169354 (Vietnam mobile)
-			  $smsTo = '+84792169354';
-			  $smsBody = 'Bạn có đơn hàng từ: '.$phone.'. vào admin kiểm tra nha.';
-			  $smsResult = $this->model->sendSmsTwilio($smsTo, $smsBody);
+			
+				if ($this->model->luugiohangnhe($idDH, $giohang)) {
+					//  unset($_SESSION['cart']);
+					// Send notification to admins
+					 try {
+						$notificationResult = $this->notification->sendToAdmins(
+							'Đơn hàng mới', 
+							"Có đơn hàng mới #{$idDH} từ {$phone}",
+							['order_id' => $idDH]
+						);
+						
+						if ($notificationResult === false) {
+							// Log notification failure but continue
+							print_r("Failed to send admin notification for order #{$idDH}");
+						}
+					} catch (Exception $e) {
+						// Log the error but don't stop the order process
+						print_r("Error sending notification: " . $e->getMessage());
+					}
+					//   header('location: '.ROOT_URL.'/donecheckout');
+				}
 			  // optionally log or ignore $smsResult
-			  header('location: '.ROOT_URL.'/donecheckout');
+			
 		   }  
 			   
 		}

@@ -21,6 +21,11 @@ if(is_array($sp)){
 
                 <section id="main" itemscope itemtype="https://schema.org/Product">
                 <link rel="stylesheet" href="views/assets/css/custom-product.css">
+                <link rel="stylesheet" href="views/assets/css/product-media.css">
+                <script src="views/assets/js/product-media.js" defer></script>
+                <link rel="stylesheet" href="views/assets/css/product-media.css">
+                <script src="views/assets/js/product-media.js" defer></script>
+                <link rel="stylesheet" href="views/assets/css/product-media.css">
                 
                     <meta itemprop="url"
                         content="#">
@@ -52,10 +57,12 @@ if(is_array($sp)){
 
 
                                     <div class="js-qv-mask mask">
-
                                         <ul class="product-images js-qv-product-images">
                                             <?php
                                               $allImgSp = explode(",",$sp['image_list']);
+                                              $videoLinks = !empty($sp['videoLinks']) ? json_decode($sp['videoLinks'], true) : [];
+                                              
+                                              // Display images
                                               for ($i=0; $i < count($allImgSp); $i++) { 
                                                   $imgdetail[] = PATH_IMG_SITE.$allImgSp[$i];
                                                   if(is_file($imgdetail[$i])){
@@ -63,12 +70,39 @@ if(is_array($sp)){
                                                   }else{
                                                       $imgdetail[$i] = '../view/images/logo.jpg';
                                                   }
-                                                                                                    echo '<li class="thumb-container">
-                                                                                                    <img class="thumb js-thumb'.($i==0? ' selected':'').'" data-image-large-src="'.$imgdetail[$i].'"
-                                                                                                            src="'.$imgdetail[$i].'"
-                                                                                                            alt="" title="" width="100" height="120" itemprop="image">
-                                                                                                </li>';
-                                                }
+                                                  echo '<li class="thumb-container">
+                                                        <img class="thumb js-thumb'.($i==0? ' selected':'').'" data-image-large-src="'.$imgdetail[$i].'"
+                                                                src="'.$imgdetail[$i].'"
+                                                                alt="" title="" width="100" height="120" itemprop="image">
+                                                    </li>';
+                                              }
+
+                                              // Display video thumbnails
+                                              if (!empty($videoLinks)) {
+                                                  foreach ($videoLinks as $videoUrl) {
+                                                      if (strpos($videoUrl, 'youtube') !== false || strpos($videoUrl, 'youtu.be') !== false) {
+                                                          preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $videoUrl, $matches);
+                                                          if (!empty($matches[1])) {
+                                                              $videoId = $matches[1];
+                                                              echo '<li class="thumb-container video-thumb" data-video-type="youtube" data-video-id="'.$videoId.'">
+                                                                    <img class="thumb" src="https://img.youtube.com/vi/'.$videoId.'/mqdefault.jpg"
+                                                                         alt="Video Thumbnail" width="100" height="120">
+                                                                    <span class="video-play-icon">▶</span>
+                                                                  </li>';
+                                                          }
+                                                      } elseif (strpos($videoUrl, 'tiktok.com') !== false) {
+                                                          preg_match('/\/video\/(\d+)/', $videoUrl, $matches);
+                                                          if (!empty($matches[1])) {
+                                                              echo '<li class="thumb-container video-thumb" data-video-type="tiktok" data-video-id="'.$matches[1].'">
+                                                                    <div class="tiktok-thumb">TikTok Video</div>
+                                                                    <span class="video-play-icon">▶</span>
+                                                                  </li>
+                                                                  
+                                                                  ';
+                                                          }
+                                                      }
+                                                  }
+                                              }
                                             ?>
                                             
                                         </ul>
@@ -586,7 +620,7 @@ if(is_array($sp)){
 }
 ?>
 
-
+<script src="views/assets/js/product-media.js"></script>
 <!-- Nút mở modal -->
 
 <!-- Modal overlay -->

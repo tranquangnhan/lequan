@@ -1,7 +1,8 @@
 <?php 
 require_once "models/order.php"; 
 require_once "models/product.php"; 
-require_once "../lib/myfunctions.php"; 
+require_once "../lib/myfunctions.php";
+require_once "../lib/notification.php";
 class order{
     function __construct()
     {

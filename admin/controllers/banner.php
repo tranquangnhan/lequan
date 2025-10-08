@@ -33,15 +33,22 @@ class banner{
         require_once "views/layout.php";
     }
     function edit(){
-
         $oneRecord = $this->model->getOneRecord($_GET['id']);
         if(isset($_POST['sua'])){
             $img = $_FILES['img1'];
-            
-            $imgs = $this->lib->checkUpLoadMany($img);
-            if($this->model->editImage($imgs,$_GET['id'])){
-                header("location: ?ctrl=banner");
-            } 
+            $bannerLink = isset($_POST['bannerLink']) ? $_POST['bannerLink'] : '';
+            if($img && $img['size'][0] > 0){
+                $imgs = $this->lib->checkUpLoadMany($img);
+                if($this->model->editBanner($imgs, $bannerLink, $_GET['id'])){
+                    header("location: ?ctrl=banner");
+                } 
+            }else{
+                // If no new image is uploaded, keep the existing image
+                $imgs = $oneRecord['bannerImage'];
+                if($this->model->editBanner($imgs, $bannerLink, $_GET['id'])){
+                    header("location: ?ctrl=banner");
+                }
+            }
         }
        
         $page_title ="Danh sách danh mục";

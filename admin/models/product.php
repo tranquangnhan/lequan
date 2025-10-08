@@ -8,12 +8,12 @@ class Model_product extends Model_db{
         return $this->result1(0,$sql);
     }
    
-    function addNewProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description)
+    function addNewProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks)
     {   
         
        
-        $sql = "INSERT INTO product(name,slug,price,discount,image_list,catalog_id,hot,size,cosan,brand,color,description) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)";
-        return $this->getLastId($sql,$name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description);
+        $sql = "INSERT INTO product(name,slug,price,discount,image_list,catalog_id,hot,size,cosan,brand,color,description,videoLinks) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return $this->getLastId($sql,$name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks);
     }
 
     function deleteProduct($id)
@@ -22,7 +22,7 @@ class Model_product extends Model_db{
         return $this->exec1($sql,$id);
     }
     
-    function editProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$id){
+    function editProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks,$id){
         $old_images = isset($_POST['old_images']) ? trim($_POST['old_images']) : '';
         $new_images = [];
         $errors = [];
@@ -84,8 +84,8 @@ class Model_product extends Model_db{
 
          
         // Cập nhật DB
-        $sql = "UPDATE product SET name= ?,slug=?,price=?,discount=?,image_list=?,catalog_id=?,hot=?,size=?,cosan=?,brand=?,color=?,description=? WHERE id=?";
-        return $this->exec1($sql,$name,$slug,$price,$discount,$all_images,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$id);
+        $sql = "UPDATE product SET name= ?,slug=?,price=?,discount=?,image_list=?,catalog_id=?,hot=?,size=?,cosan=?,brand=?,color=?,description=?,videoLinks=? WHERE id=?";
+        return $this->exec1($sql,$name,$slug,$price,$discount,$all_images,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks,$id);
     }
 
     function showOnePhone($id)

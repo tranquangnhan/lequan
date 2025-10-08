@@ -422,7 +422,10 @@
     <script src="views/assets/js/ckfinder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"> </script>
     <script src="views/assets/js/validate.js"></script>
-
+    <!-- Firebase Scripts (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
+    <script src="<?=ROOT_URL?>/admin/views/assets/js/firebase-messaging.js"></script>
 </body>
 
 </html>

@@ -48,6 +48,23 @@
                                         <input class="mt-2" type="file" name="img[]" multiple>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="videoLinks">Link Video (YouTube/TikTok)</label>
+                                        <div class="video-input-container">
+                                            <div class="input-group mb-2">
+                                                <input type="text" class="form-control video-link" placeholder="Dán link YouTube hoặc TikTok vào đây">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary add-video-link">Thêm</button>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">Hỗ trợ link YouTube (youtube.com hoặc youtu.be) và TikTok</small>
+                                            <div id="videoPreview" class="mt-2">
+                                                <!-- Video previews will be added here -->
+                                            </div>
+                                            <input type="hidden" name="videoLinks" id="videoLinksInput" value="<?= htmlspecialchars($oneRecode['videoLinks'] ?? '') ?>">
+                                        </div>
+                                    </div>
+
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
@@ -183,3 +200,4 @@
 <link href="<?=ROOT_URL?>/admin/views/assets/css/color-picker.css" rel="stylesheet" type="text/css" />
 <script src="<?=ROOT_URL?>/admin/views/assets/js/custom_editproduct.js"></script>
 <script src="<?=ROOT_URL?>/admin/views/assets/js/color-picker.js"></script>
+<script src="<?=ROOT_URL?>/admin/views/assets/js/product-media.js"></script>

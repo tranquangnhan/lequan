@@ -189,7 +189,7 @@
                   data-refresh-url="https://infinitytemplate.com/Prestashop/PRS01/PRS012/en/cart?ajax=1&action=refresh">
                   <div class="card-block">
                      <div class="cart-summary-products">
-                        <p><?=count($_SESSION['cart'])?> Sản phẩm</p>
+                        <p><?=count($_SESSION['cart'])>0  ? count($_SESSION['cart']) : 'Không có ' ?> Sản phẩm</p>
                         <p>
                            <a href="#" data-toggle="collapse" data-target="#cart-summary-product-list">
                            Hiện chi tiết

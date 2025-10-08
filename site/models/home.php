@@ -786,7 +786,7 @@ class Model_home extends Model_db{
     }
 
     function getAllBanner(){
-        $sql = "SELECT bannerImage FROM banner";
+        $sql = "SELECT bannerImage,bannerLink FROM banner";
         return $this->result1(0,$sql);
     }
 }

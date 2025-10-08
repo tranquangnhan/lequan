@@ -50,9 +50,26 @@
                                                 <label for="">Ảnh Sản Phẩm</label><span style="color:red;"> (*)</span>
                                                 <div id="drop-area" style="border:2px dashed #ccc; padding:30px; text-align:center; cursor:pointer;">
                                                     <p>Kéo & thả ảnh vào đây hoặc click để chọn ảnh</p>
-                                                    <input type="file" name="img[]" id="fileElem" multiple style="display:none;">
+                                                    <input type="file" name="img[]" id="fileElem" multiple style="display:none;" accept="image/*">
                                                 </div>
                                                 <div id="preview" style="display:flex;flex-wrap:wrap;"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="videoLinks">Link Video (YouTube/TikTok)</label>
+                                            <div class="video-input-container">
+                                                <div class="input-group mb-2">
+                                                    <input type="text" class="form-control video-link" placeholder="Dán link YouTube hoặc TikTok vào đây">
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-primary add-video-link">Thêm</button>
+                                                    </div>
+                                                </div>
+                                                <small class="text-muted">Hỗ trợ link YouTube (youtube.com hoặc youtu.be) và TikTok</small>
+                                                <div id="videoPreview" class="mt-2">
+                                                    <!-- Video previews will be added here -->
+                                                </div>
+                                                <input type="hidden" name="videoLinks" id="videoLinksInput" value="">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -183,3 +200,6 @@
             </div>
 
             <script src="<?=ROOT_URL?>/admin/views/assets/js/custom_editproduct.js"></script>
+                  <script src="<?=ROOT_URL?>/admin/views/assets/js/product-media.js"></script>
+                  
+            <script async src="https://www.tiktok.com/embed.js"></script>

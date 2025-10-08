@@ -112,6 +112,7 @@ class Product{
             $brand = $this->lib->slug($brand);
             $brand = $brand.'-'.$cosan;
             $Description = $_POST['Description'];
+            $videoLinks = isset($_POST['videoLinks']) ? $_POST['videoLinks'] : '';
             $slug = $this->lib->slug($name);
             
             
@@ -150,15 +151,15 @@ class Product{
                     settype($id,"int");
                     // echo 'oke';
                     $slug = $slug.'-'.$id;
-                    $this->edit($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$id);
+                    $this->edit($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks,$id);
                 
                 }else
                 {
               
                     // echo 'oke';
                     $slug = $slug.'-'.($this->model->getLastestIdProduct()+1);
-                    
-                    $this->store($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description);
+                  
+                    $this->store($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks);
                 }    
             }
 
@@ -169,9 +170,9 @@ class Product{
     }//thêm mới dữ liệu vào db
 
 
-    function store($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description){   
+    function store($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks){   
         
-        $idLastPhone = $this->model->addNewProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description);
+        $idLastPhone = $this->model->addNewProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks);
         if($idLastPhone != null)
         {
             echo "<script>alert('Thêm thành công')</script>";
@@ -184,9 +185,9 @@ class Product{
         require_once "views/layout.php";
     }
 
-    function edit($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$id)
+    function edit($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks,$id)
     {
-        if($this->model->editProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$id))
+        if($this->model->editProduct($name,$slug,$price,$discount,$imgs,$IDCate,$hot,$size,$cosan,$brand,$color,$Description,$videoLinks,$id))
         {
             echo "<script>alert('Sửa thành công')</script>";
             header("location: ?ctrl=product");

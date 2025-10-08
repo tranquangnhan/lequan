@@ -68,14 +68,14 @@
         </div>
         
         <div class="col-md-9 banner">
-     
+                         
         <div id="top_column">
     <div class="kkimgslider clearfix ">
         <div class="flexslider mobile-friendly" data-interval="5000" data-pause="hover">
             <ul class="slides">
                 <li class="slide">
-
-                    <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1"
+                       
+                    <a href="<?=$banner[0]['bannerLink'] ?? ROOT_URL.'/san-pham/tat-ca/trang-1'?>"
                         title="kslider-1">
                         <img src="<?=PATH_IMG_SITE.$banner[0]['bannerImage']?>" alt="kslider-1" title="KSlider1" />
                     </a>
@@ -83,14 +83,14 @@
                 </li>
                 <li class="slide">
 
-                    <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1"
+                    <a href="<?=$banner[1]['bannerLink'] ?? ROOT_URL.'/san-pham/tat-ca/trang-1'?>"
                         title="kslider-2">
                         <img src="<?=PATH_IMG_SITE.$banner[1]['bannerImage']?>" alt="kslider-2" title="KSlider2" />
                     </a>
 
                 </li>
                 <li class="slide">
-                    <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1"
+                    <a href="<?=$banner[2]['bannerLink']  ?? ROOT_URL.'/san-pham/tat-ca/trang-1'?>"
                         title="kslider-3">
                         <img src="<?=PATH_IMG_SITE.$banner[2]['bannerImage']?>" alt="kslider-3" title="KSlider3" />
                     </a>
@@ -109,7 +109,7 @@
             <div class="row">
                 <div class="center-banner list-unstyled banner-grid d-flex ">
                     <div class="slider banner2 col-lg-4 col-md-12">
-                        <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1" class="kk-customhover-fadeintopbottom">
+                        <a href="<?=$banner[3]['bannerLink'] ?? ROOT_URL.'/san-pham/tat-ca/trang-1'?>" class="kk-customhover-fadeintopbottom">
                             <img src="<?=PATH_IMG_SITE.$banner[3]['bannerImage']?>" alt="kbanner-1"
                                 class="img-responsive center-block" />
                         </a>
@@ -117,14 +117,14 @@
                     </div>
 
                     <div class="slider banner2  col-lg-4 col-md-12">
-                        <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1" class="kk-customhover-fadeintopbottom">
+                        <a href="<?=$banner[4]['bannerLink'] ?? ROOT_URL.'/san-pham/tat-ca/trang-1'?>" class="kk-customhover-fadeintopbottom">
                             <img src="<?=PATH_IMG_SITE.$banner[4]['bannerImage']?>" alt="kbanner-2"
                                 class="img-responsive center-block" />
                         </a>
                         <div class="overlay"></div>
                     </div>
                     <div class="slider banner2  col-lg-4 col-md-12">
-                        <a href="<?=ROOT_URL?>/san-pham/tat-ca/trang-1" class="kk-customhover-fadeintopbottom">
+                        <a href="<?=$banner[5]['bannerLink'] ?? ROOT_URL.'/san-pham/tat-ca/trang-1'?>" class="kk-customhover-fadeintopbottom">
                             <img src="<?=PATH_IMG_SITE.$banner[5]['bannerImage']?>" alt="kbanner-3"
                                 class="img-responsive center-block" />
                         </a>

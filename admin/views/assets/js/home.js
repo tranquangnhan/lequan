@@ -1,5 +1,9 @@
 $(document).ready(function() {
-    $('#table_product').DataTable();
+    $('#table_product').DataTable(
+        {
+            stateSave: true
+        }
+    );
 });
 
 function submitForm() {
