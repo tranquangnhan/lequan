@@ -797,7 +797,7 @@
                                         <!-- Grid-List Buttons -->
                                         <div class="grid-list col-md-3">
                                             <span id="kkgrid" class="active"></span>
-                                            <span id="kklist"></span>
+                                          
                                         </div>
 
 
@@ -810,6 +810,9 @@
                                                 <div class="input-group ">
                                                     <select class="custom-select " id="sort_by">
                                                     <i class="material-icons float-xs-right">&#xE5C5;</i>
+                                                        <option value="id DESC" class="select-list ">
+                                                            Sản phẩm mới
+                                                        </option>
                                                         <option value="price ASC" class="select-list ">
                                                             Giá từ thấp - cao
                                                         </option>

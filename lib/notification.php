@@ -19,9 +19,10 @@ class NotificationHelper {
             return false;
         }
         $tokens = array_column($tokens, 'fcm_token');
-
+        
         // obtain access token from service account
-        $accessToken = $this->getAccessToken();
+        $accessToken = $this->getAccessToken(FIREBASE_SERVICE_ACCOUNT_FILE);
+       
         if (!$accessToken) {
             error_log('Unable to obtain FCM access token');
             return false;
@@ -44,19 +45,22 @@ class NotificationHelper {
 
         $results = [];
         foreach ($tokens as $token) {
-            $payload = [
-                'message' => [
-                    'token' => $token,
+           $payload = [
+            'message' => [
+                'token' => $token,
+                'webpush' => [
                     'notification' => [
                         'title' => $title,
-                        'body' => $message
+                        'body' => $message,
+                        'icon' => ROOT_URL . '/favicon.ico',
                     ],
-                    'data' => $data,
-                    'webpush' => [
-                        'fcm_options' => ['link' => ROOT_URL . '/admin/?ctrl=order']
+                    'fcm_options' => [
+                        'link' => ROOT_URL . '/admin/?ctrl=order'
                     ]
-                ]
-            ];
+                ],
+                'data' => $data
+            ]
+        ];
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -86,78 +90,81 @@ class NotificationHelper {
                 $results[] = ['token' => $token, 'success' => false, 'response' => $decoded, 'http' => $httpCode];
             }
         }
-        print_r($results);
-        exit();
+      
         return $results;
     }
-
-    private function getAccessToken() {
-        // Simple file cache for access token
-        $cacheFile = sys_get_temp_dir() . '/fcm_access_token.json';
-        if (file_exists($cacheFile)) {
-            $cached = json_decode(file_get_contents($cacheFile), true);
-            if ($cached && isset($cached['expires']) && $cached['expires'] > time() + 30) {
-                return $cached['access_token'];
-            }
-        }
-
-        if (!file_exists(FIREBASE_SERVICE_ACCOUNT_FILE)) {
-            error_log('Service account file not found: ' . FIREBASE_SERVICE_ACCOUNT_FILE);
-            return false;
-        }
-
-        $sa = json_decode(file_get_contents(FIREBASE_SERVICE_ACCOUNT_FILE), true);
-        if (!$sa) {
-            error_log('Invalid service account JSON');
-            return false;
-        }
-
-        $now = time();
-        $claims = [
-            'iss' => $sa['client_email'],
-            'scope' => 'https://www.googleapis.com/auth/firebase.messaging https://www.googleapis.com/auth/cloud-platform',
-            'aud' => 'https://oauth2.googleapis.com/token',
-            'iat' => $now,
-            'exp' => $now + 3600,
-        ];
-
-        // Create JWT
-        $header = ['alg' => 'RS256', 'typ' => 'JWT'];
-        $jwt = $this->jwtEncode($header, $claims, $sa['private_key']);
-
-        // Exchange JWT for access token
-        $ch = curl_init('https://oauth2.googleapis.com/token');
-        $post = http_build_query([
-            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-            'assertion' => $jwt
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
-
-        $result = curl_exec($ch);
-        if ($result === false) {
-            error_log('Curl error obtaining access token: ' . curl_error($ch));
-            curl_close($ch);
-            return false;
-        }
-        curl_close($ch);
-
-        $decoded = json_decode($result, true);
-        if (!$decoded || !isset($decoded['access_token'])) {
-            error_log('Failed to obtain access token: ' . $result);
-            return false;
-        }
-
-        $accessToken = $decoded['access_token'];
-        $expiresIn = isset($decoded['expires_in']) ? intval($decoded['expires_in']) : 3600;
-
-        file_put_contents($cacheFile, json_encode(['access_token' => $accessToken, 'expires' => time() + $expiresIn]));
-
-        return $accessToken;
+    public function base64UrlEncode($data) {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
+    private function getAccessToken($credentialsFilePath) {
+        // Đọc file JSON service account
+        $credentials = json_decode(file_get_contents($credentialsFilePath), true);
+        // print_r(1111);
+        // exit();
+        if (!$credentials) {
+            throw new Exception('Không thể đọc file credentials.');
+        }
+        
+        $now = time();
+        $tokenPayload = [
+            "iss" => $credentials["client_email"],
+            "sub" => $credentials["client_email"],
+            "aud" => "https://oauth2.googleapis.com/token",
+            "iat" => $now,
+            "exp" => $now + 3600,
+            "scope" => "https://www.googleapis.com/auth/firebase.messaging"
+        ];
+        
+        // Tạo header JWT
+        $header = $this->base64UrlEncode(json_encode(["alg" => "RS256", "typ" => "JWT"]));
+        $payload = $this->base64UrlEncode(json_encode($tokenPayload));
+        $signatureInput = "$header.$payload";
+        
+        // Ký JWT bằng private key
+        $privateKey = openssl_pkey_get_private($credentials["private_key"]);
+        if (!$privateKey) {
+            throw new Exception('Không thể load private key.');
+        }
+        openssl_sign($signatureInput, $signature, $privateKey, "SHA256");
+        $signature = $this->base64UrlEncode($signature);
+        
+        $jwt = "$signatureInput.$signature";
+        
+        // Gửi request lấy access token
+        $url = "https://oauth2.googleapis.com/token";
+        $data = http_build_query([
+            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+            "assertion" => $jwt
+        ]);
+        
+        $options = [
+            "http" => [
+                "header"  => "Content-Type: application/x-www-form-urlencoded",
+                "method"  => "POST",
+                "content" => $data
+            ]
+        ];
+        
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+       
+        $result = @file_get_contents($url, false, $context);
+
+        if ($result === false) {
+            $error = error_get_last();
+            echo "❌ Request lỗi: " . ($error['message'] ?? 'Không rõ') . "\n\n";
+            echo "Header phản hồi:\n";
+            print_r($http_response_header ?? []);
+            exit;
+        }
+   
+        $response = json_decode($result, true);
+     
+        return $response['access_token'] ?? null;
+    }
+        // Hàm hỗ trợ base64Url encode
+  
     private function jwtEncode($header, $payload, $privateKey) {
         $segments = [];
         $segments[] = $this->base64UrlEncode(json_encode($header));
@@ -171,7 +178,5 @@ class NotificationHelper {
         return implode('.', $segments);
     }
 
-    private function base64UrlEncode($data) {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-    }
+  
 }

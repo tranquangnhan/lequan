@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="views/assets/images/favicon.ico">
-
+        <link rel="manifest" href="manifest.json">
         <!-- Bootstrap Css -->
         <link href="views/assets/css/bootstrap.min.css" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
@@ -263,6 +263,14 @@
                                     <i class="mdi mdi-page-layout-sidebar-left"></i>
                                     <span>Đơn hàng</span>
                                     
+                                </a>
+                                
+                            </li>
+                             <li>
+                                <a href="?ctrl=binhluan">
+                                    <i class="mdi mdi-page-layout-sidebar-left"></i>
+                                    <span>Bình luận</span>
+
                                 </a>
                                 
                             </li>

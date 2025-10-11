@@ -5,7 +5,6 @@
 
    require_once "../system/database.php";
    require_once "../lib/myfunctions.php";
-   echo $lang['title'];
    require_once "models/home.php"; 
    require_once "models/user.php";
    class Home{
@@ -49,10 +48,34 @@
             case "termofservice":$this->termofservice();break;
 			case "notification":$this->notification();break;
 			case "donecheckout": $this->donecheckout();break;
-			case "gioithieu": $this->gioithieu();break;
+           case "gioithieu": $this->gioithieu();break;
+           case "add_review": $this->addReview();break;
            }
-           
-        }
+		}
+        function addReview() {
+            if (!isset($_SESSION['sid'])) {
+                header('location: ?ctrl=user&act=login');
+                return;
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $data = [
+                    'id_product' => $_POST['id_product'],
+					'id_user' => $_SESSION['sid'],
+                    'rating' => $_POST['rating'],
+                    'noidung' => $_POST['noidung']
+                ];
+
+                if ($this->model->addReview($data)) {
+				
+                    $_SESSION['message'] = 'Cảm ơn bạn đã đánh giá sản phẩm!';
+                } else {
+                    $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+                }
+
+                header('location: '.ROOT_URL.'/san-pham-chi-tiet/' . $_POST['slug']);
+            }        
+		}
  
         function home()
         {
@@ -109,7 +132,31 @@
            $slug = $_GET['slug'];
          
            $sp = $this->model->getOnePro($slug);  
-		   $this->model->increaseProductView($sp['id']);
+           $this->model->increaseProductView($sp['id']);
+         
+           // Handle review submission
+           if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'])) {
+               if (!isset($_SESSION['sid'])) {
+                   $_SESSION['error'] = 'Vui lòng đăng nhập để đánh giá';
+                   header('Location: ?ctrl=user&act=login');
+                   return;
+               }
+
+               $reviewData = [
+                   'id_product' => $sp['id'],
+                   'rating' => (int)$_POST['rating'],
+                   'noidung' => $_POST['noidung']
+               ];
+
+               if ($this->model->addReview($reviewData)) {
+                   $_SESSION['message'] = 'Cảm ơn bạn đã đánh giá sản phẩm!';
+               } else {
+                   $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+               }
+
+               header('Location: ' . $_SERVER['REQUEST_URI']);
+               return;
+           }
 		 
            $viewFile = "views/Product-Detail.php";     
            require_once "views/layout.php";  
@@ -142,7 +189,7 @@
         }
    
         function cartView(){
-   $getMenuParent = $this->model->getMenuParent();
+   			$getMenuParent = $this->model->getMenuParent();
             $viewFile ="views/cart.php";
             require_once "views/layout.php";
         }
@@ -160,223 +207,8 @@
                header("location: ". ROOT_URL."/gio-hang");
             }
         }
-      function createcheckoutsession()
-	  {
-		  //echo dirname(__FILE__) . '/vendor/autoload.php';
-		  
-		  require dirname(__FILE__) . '/vendor/autoload.php';
-		
-		\Stripe\Stripe::setApiKey('sk_test_51Ila2jLKgBvDvyCU7Aqlt5aeu1LIBByZoqZ6PgAqUAXDqLTuutDkhj5ZqLxd79wuEF86Ke07U9hrPjpl6tCH70B8003iKIrfWQ');
-
-		header('Content-Type: application/json');
-		
-		$YOUR_DOMAIN = ROOT_URL;
-
-		$checkout_session = \Stripe\Checkout\Session::create([
-		  'payment_method_types' => ['card'],
-		  'line_items' => [[
-			'price_data' => [
-			  'currency' => 'usd',
-			  'unit_amount' => 2000,
-			  'product_data' => [
-				'name' => 'Stubborn Attachments',
-				'images' => ["https://i.imgur.com/EHyR2nP.png"],
-			  ],
-			],
-			'quantity' => 1,
-		  ]],
-		  'mode' => 'payment',
-		  'success_url' => $YOUR_DOMAIN . '/cam-on',
-		  'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
-		]);
-/*
-		echo json_encode(['id' => $checkout_session->id]);
-		*/
-	  }		  
-   	function paymentchecking()
-   	{
-   		$result = array();
-		if (isset($_SESSION['idDH']))
-		   $oid= $_SESSION['idDH'];
-		else $oid="-1";
-		$result["data"] = $_POST;
-   		switch($_POST['method'])
-		{
-			case "paypal":
-			{
-				$paymentID = $_POST['paymentID'];
-				$payerID = $_POST['payerID'];
-				$token = $_POST['token'];
-				if($token != "")
-				{
-					$update_result = $this->model->updatepaymentstatus($oid,1,'paypal');
-				   if ($update_result){
-					  $_SESSION['idDH'] = "-1";
-					  unset($_SESSION['cart']);
-					  $result["status"] = 200;
-				   }  
-				   else
-				   {
-					   $result["status"] = 500;
-					   $result["message"] = "Cannot Create Order";
-				   }
-				}
-				else
-				{
-					$result["status"] = 500;
-					   $result["message"] = "Bad Request";
-				}
-				break;
-			}
-			case "stripe":
-			{
-				$paymentID = $_POST['id'];
-				if($paymentID != "")
-				{
-					$update_result = $this->model->updatepaymentstatus($oid,1,'stripe');
-				   if ($update_result){
-					  $_SESSION['idDH'] = "-1";
-					  unset($_SESSION['cart']);
-					  $result["status"] = 200;
-				   }  
-				   else
-				   {
-					   $result["status"] = 500;
-					   $result["message"] = "Cannot Create Order";
-				   }
-				}
-				else
-				{
-					$result["status"] = 500;
-					   $result["message"] = "Bad Request";
-				}
-				break;
-
-			}
-			case "cod":
-			{
-				$paymentID = $_POST['id'];
-				$update_result = $this->model->updatepaymentstatus($oid,0,'cod');
-			   if ($update_result){
-				  $_SESSION['idDH'] = "-1";
-				  unset($_SESSION['cart']);
-				  $result["status"] = 200;
-			   }  
-			   else
-			   {
-				   $result["status"] = 500;
-				   $result["message"] = "Cannot Create Order";
-			   }
-				break;
-
-			}
-			default:
-			{
-				$result["status"] = 500;
-				$result["message"] = "Invaild payment";
-			}
-		}
-   		
-   		echo json_encode($result);
-   	}
-	function stripecheckout()
-	{
-		require 'vendor/autoload.php';
-		$tongtien = 0;
-		foreach ($_SESSION['cart'] as $row) {
-		   $tongtien += $row[5]*$row[1];
-		}
-		\Stripe\Stripe::setApiKey('sk_test_51Ila2jLKgBvDvyCU7Aqlt5aeu1LIBByZoqZ6PgAqUAXDqLTuutDkhj5ZqLxd79wuEF86Ke07U9hrPjpl6tCH70B8003iKIrfWQ');
-		try {
-		  $json_str = file_get_contents('php://input');
-		  $json_obj = json_decode($json_str);
-		
-		  $paymentIntent = \Stripe\PaymentIntent::create([
-			'amount' => $tongtien*100,
-			'currency' => 'eur',
-		  ]);
-
-		  $output = [
-			'clientSecret' => $paymentIntent->client_secret,
-		  ];
-
-		  echo json_encode($output);
-		} catch (Error $e) {
-		  http_response_code(500);
-		  echo json_encode(['error' => $e->getMessage()]);
-		}
-	}
-	function createklarnaqr()
-	{
-		$result = array();
-		$items = array();
-		$tatcasp = $_SESSION['cart'];
-		 $sltotal = 0; 
-		 $tongtien = 0;
-		 $kq ='';
-			 
-		 $i = 0;
-		 foreach ($tatcasp as $motsp) {
-			 $item = '{
-			  "type": "physical",
-			  "reference": "'.$motsp[0].'",
-			  "name": "'.$motsp[4].'",
-			  "unit_price": '.$motsp[5].',
-			  "total_amount": '.$motsp[5]*$motsp[1].',
-			  "total_tax_amount": 0,
-			  "tax_rate": 0,
-			  "total_discount_amount": 0,
-			  "group_identifier": "demo.store.items"
-			}';
-			 array_push($items,$item);
-		 }
-		 $itemtext = implode(",",$items);
-		$curl = curl_init();
-
-		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://api.playground.klarna.com/instantshopping/v1/buttons',
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => '',
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 0,
-		  CURLOPT_FOLLOWLOCATION => true,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => 'POST',
-		  CURLOPT_POSTFIELDS =>'{
-		  "purchase_country": "GB",
-		  "purchase_currency": "EUR",
-		  "locale": "en-GB",
-		  "merchant_urls": {
-			"place_order": "'.ROOT_URL.'/verifyklarna",
-			"terms": "'.ROOT_URL.'/terms"
-		  },
-		  "items": [
-			'.$itemtext.'
-		  ]
-		}',
-		  CURLOPT_HTTPHEADER => array(
-			'Authorization: Basic UEszODkzNV9kMDNkMzc3NTYzMTc6b2tCYTFGeVZPalJyanF2eQ==',
-			'Content-Type: application/json'
-		  ),
-		));
-
-		$response = curl_exec($curl);
-		curl_close($curl);
-		$response = json_decode($response,true);
-		if(count($response["links"]))
-		{
-			$result["status"] = 200;
-			$result["url"] = $response["links"][0]["href"];
-			$result["qr"] = $response["links"][1]["href"];
-		}
-		else
-		{
-			$result["status"] = 500;
-			$result["message"] = "Can not create payment!";
-		}
-		$result["data"] = $response;
-		echo json_encode($result);
-	}
+     
+   	
 	 function checkout()
 	 {
 		$getMenuParent = $this->model->getMenuParent();
@@ -482,10 +314,10 @@
 							['order_id' => $idDH]
 						);
 						
-						if ($notificationResult === false) {
-							// Log notification failure but continue
-							print_r("Failed to send admin notification for order #{$idDH}");
-						}
+						// if ($notificationResult === false) {
+						// 	// Log notification failure but continue
+						// 	print_r("Failed to send admin notification for order #{$idDH}");
+						// }
 					} catch (Exception $e) {
 						// Log the error but don't stop the order process
 						print_r("Error sending notification: " . $e->getMessage());
@@ -538,7 +370,7 @@
 			  $emailexist= 'Email của bạn không tồn tại!';
 		   }
 		}
-
+		$getMenuParent = $this->model->getMenuParent();
 		$viewFile ="views/login.php";
 		require_once "views/layout.php";
 	 }
@@ -562,6 +394,7 @@
 			  }
 		   } 
 		}
+		$getMenuParent = $this->model->getMenuParent();
 		$viewFile ="views/register.php";
 		require_once "views/layout.php";
 	 }
@@ -650,4 +483,5 @@
 
 	
 }
+   
    ?>

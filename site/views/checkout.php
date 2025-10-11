@@ -52,7 +52,7 @@
 
 
 
-                                                    <input class="form-control" name="name" type="text" value=""
+                                                    <input class="form-control" name="name" type="text" value="" autocomplete="name"
                                                         required>
 
 
@@ -82,7 +82,7 @@
 
 
 
-                                                    <input class="form-control" name="phone" type="number" value=""
+                                                    <input class="form-control" name="phone" type="number" value="" autocomplete="tel"
                                                         required>
 
                                                 </div>
@@ -107,7 +107,7 @@
 
 
 
-                                                    <input class="form-control" name="email" type="email" value=""
+                                                    <input class="form-control" name="email" type="email" value="" autocomplete="email"
                                                         required>
 
 
@@ -130,7 +130,7 @@
 
 
 
-                                                    <input class="form-control" name="address" type="text" value=""
+                                                    <input class="form-control" name="address" type="text" value="" autocomplete="street-address"
                                                         required>
 
 

@@ -12,8 +12,10 @@ define('PATH_IMG_ADMIN','../uploads/');
 define('PAGE_SIZE',10);
 define('PAGE_SIZE_PRO',20);
 define('PATH_IMG_SITE','../uploads/');
-session_start();
-
+define('FIREBASE_SERVICE_ACCOUNT_FILE','../guitinnhan-fa6f8-845ca6fc49fc.json');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Twilio configuration - replace with real credentials
 define('TWILIO_SID', 'AC04ef80f1fb562b04bd924a6f3053e410');
 define('TWILIO_TOKEN', 'cabac450e4b5a72d9e070965005ba7e6');

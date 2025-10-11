@@ -3,12 +3,14 @@ require_once "../../system/config.php";
 require_once "../../system/database.php";
 require_once "../models/login.php";
 require_once "../../lib/myfunctions.php";
+require_once "../models/Token_api.php";
 class Login
 {
     function __construct()
     {
        
         $this->model = new Model_login();
+        $this->modelToken = new ModelTokenAPI();
         $this->lib = new lib();
         $act = "login";
         if(isset($_GET["act"])==true) $act = $_GET['act'];
@@ -91,9 +93,12 @@ class Login
     function logOut()
     {
         if(isset($_GET['logout'])&&($_GET['logout'])){
+            $result = $this->modelToken->removeToken($_SESSION['sid']);
+            
             unset($_SESSION['sid']);
             unset($_SESSION['suser']);
             unset($_SESSION['role']);
+            
             // remove remember token if present
             if(isset($_COOKIE['remember_token']) && $_COOKIE['remember_token']!=''){
                 $token = $_COOKIE['remember_token'];

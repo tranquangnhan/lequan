@@ -2,8 +2,9 @@
 
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\TypeException;
-
-    session_start(); 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
     // $lib = new lib();    
 class Model_user extends Model_db{ 
     

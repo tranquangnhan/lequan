@@ -14,7 +14,7 @@ const messaging = firebase.messaging();
 
 // Register service worker and get token
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js')
+    navigator.serviceWorker.register('../firebase-messaging-sw.js')
     .then(function(registration) {
         console.log('Service worker registered:', registration);
 
@@ -22,12 +22,12 @@ if ('serviceWorker' in navigator) {
         Notification.requestPermission().then(function(permission) {
             if (permission === 'granted') {
                 // Replace with your public VAPID key from Firebase console
-                const vapidKey = 'YOUR_PUBLIC_VAPID_KEY_HERE';
+                const vapidKey = 'BMAv2MQcF_WPYjGrSS7WzpBcVT__kyO62DknsF7sLWc_lJjx6Cjvhf0F9oEp5_8MkbYrQjkSlcal-6ByeH8axrc';
                 messaging.getToken({vapidKey: vapidKey, serviceWorkerRegistration: registration})
                 .then((currentToken) => {
                     if (currentToken) {
-                        console.log('FCM token:', currentToken);
-                        fetch('?ctrl=token_api&act=save', {
+             
+                        fetch('?ctrl=TokenApi&act=save', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

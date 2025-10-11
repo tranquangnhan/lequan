@@ -637,18 +637,39 @@ class Model_home extends Model_db{
       return $this->exec1($sql,$idsp);
   }
 
-  function addComment($review,$name,$iddt,$iduser){
-    $time = date("Y-m-d H:i:s");
-    if($iduser != null){
-        $sql = "INSERT INTO binhluan(NoiDungBl,TenKh,idDT,idUser,ThoiDiemBL,AnHien) VALUE(?,?,?,?,?,?)";
-        return $this->getLastId($sql,$review,$name,$iddt,$iduser,$time,1);
-    }else{
-        $sql = "INSERT INTO binhluan(NoiDungBl,TenKh,idDT,ThoiDiemBL,AnHien) VALUE(?,?,?,?,?)";
-        return $this->getLastId($sql,$review,$name,$iddt,$time,1);
+    function getRatingData($productId) {
+        $sql = "SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews 
+                FROM binhluan 
+                WHERE id_product = ? AND trangthai = 1";
+        $result = $this->result1(1, $sql, $productId);
+        return [
+            'avg_rating' => number_format($result['avg_rating'] ?: 0, 1),
+            'total_reviews' => $result['total_reviews']
+        ];
     }
-  }
-  
-  function getAllComment($slug){
+
+    function getProductReviews($productId) {
+        $sql = "SELECT bl.*, u.name as user_name
+                FROM binhluan bl 
+                JOIN user u ON bl.id_user = u.idUser 
+                WHERE bl.id_product = ? AND bl.trangthai = 1 
+                ORDER BY bl.ngaybinhluan DESC";
+        return $this->result1(0, $sql, $productId);
+    }
+
+    function addReview($data) {
+        if (!isset($_SESSION['sid'])) return false;
+        
+        $sql = "INSERT INTO binhluan (id_product, id_user, noidung, rating) 
+                VALUES (?, ?, ?, ?)";
+        return $this->exec1($sql, 
+            $data['id_product'],
+            $data['id_user'],
+            $data['noidung'],
+            $data['rating']
+        );
+    }  
+    function getAllComment($slug){
       
     $sql = "SELECT * FROM product WHERE slug = ?";
     $kq =  $this->result1(1,$sql,$slug)['idDT'];

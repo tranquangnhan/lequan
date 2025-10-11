@@ -22655,7 +22655,9 @@ html[xmlns] .flexslider .slides {
 .form-search button:hover {
   background-color: #0056b3;
 }
-
+i.material-icons.add {
+    cursor: pointer;
+}
 @media screen and (max-width:860px) {
     .flex-direction-nav .flex-prev {
         opacity: 1

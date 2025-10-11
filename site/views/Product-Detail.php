@@ -22,10 +22,9 @@ if(is_array($sp)){
                 <section id="main" itemscope itemtype="https://schema.org/Product">
                 <link rel="stylesheet" href="views/assets/css/custom-product.css">
                 <link rel="stylesheet" href="views/assets/css/product-media.css">
+                <link rel="stylesheet" href="views/assets/css/reviews.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 <script src="views/assets/js/product-media.js" defer></script>
-                <link rel="stylesheet" href="views/assets/css/product-media.css">
-                <script src="views/assets/js/product-media.js" defer></script>
-                <link rel="stylesheet" href="views/assets/css/product-media.css">
                 
                     <meta itemprop="url"
                         content="#">
@@ -225,6 +224,7 @@ if(is_array($sp)){
                                           <?php 
                                             if($sp['size']){
                                                 $size = explode(',',$sp['size']);
+                                                $kq = '';
                                                 $kq .= ' <div class="clearfix product-variants-item">
                                             <span class="control-label">Kích cỡ</span>
                                             <select class="form-control form-control-select" id="group_1"
@@ -325,7 +325,7 @@ if(is_array($sp)){
                                                     <a href="http://www.facebook.com/sharer.php?u=<?=$actual_link?>" target="_blank" class="zalo-btn">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 48 48">
                                                         <path d="M24 4C12.96 4 4 12.96 4 24c0 11.04 8.96 20 20 20 11.04 0 20-8.96 20-20 0-11.04-8.96-20-20-20zm0 2c9.94 0 18 8.06 18 18s-8.06 18-18 18S6 33.94 6 24 14.06 6 24 6z"/>
-                                                        <text x="50%" y="60%" text-anchor="middle" fill="white" font-size="14" font-family="Arial" font-weight="bold">Z</text>
+                                                          <text x="50%" y="60%" text-anchor="middle" fill="white" font-size="14" font-family="Arial" font-weight="bold">Z</text>
                                                     </svg>
                                                     Zalo
                                                     </a>
@@ -386,10 +386,10 @@ if(is_array($sp)){
                                     <a class="nav-link active" data-toggle="tab" href="#description" role="tab"
                                         aria-controls="description" aria-selected="true">Mô tả</a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#product-details" role="tab"
-                                        aria-controls="product-details"></a>
-                                </li> -->
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#reviews" role="tab"
+                                        aria-controls="reviews" aria-selected="false">Đánh giá</a>
+                                </li>
                             </ul>
 
                             <div class="tab-content" id="tab-content">
@@ -404,16 +404,95 @@ if(is_array($sp)){
                                 </div>
 
 
-                                <div class="tab-pane fade" id="product-details"
-                                    data-product=""
-                                    role="tabpanel">
-                                    <div class="product-description">
-                                        <p>
-                                            <?php  echo $sp['properties']; ?>
-                                        </p>
+                                <div class="tab-pane fade" id="reviews" role="tabpanel">
+                                    <?php 
+                                    // Get average rating and total reviews
+                                    $ratingData = $this->model->getRatingData($sp['id']);
+                                    $avgRating = $ratingData['avg_rating'];
+                                    $totalReviews = $ratingData['total_reviews'];
+                                    ?>
+                                    
+                                    <div class="reviews-summary">
+                                        <div class="average-rating">
+                                            <h3>Đánh giá trung bình</h3>
+                                            <div class="rating-stars">
+                                                <?php for($i = 1; $i <= 5; $i++): ?>
+                                                    <i class="fa fa-star<?= $i <= round($avgRating) ? ' text-warning' : '-o' ?>"></i>
+                                                <?php endfor ?>
+                                                <span class="rating-number"><?= number_format($avgRating, 1) ?>/5</span>
+                                                <span class="total-reviews">(<?= $totalReviews ?> đánh giá)</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <?php if(isset($_SESSION['sid'])): ?>
+                                            <div class="write-review">
+                                                <h3>Viết đánh giá của bạn</h3>
+                                                <form id="reviewForm" method="post" action="?ctrl=product&act=add_review">
+                                                    <input type="hidden" name="id_product" value="<?= $sp['id'] ?>">
+                                                    <input type="hidden" name="slug" value="<?= $sp['slug'] ?>">
+                                                    <div class="form-group">
+                                                        <label>Đánh giá của bạn:</label>
+                                                        <div class="rating-select">
+                                                        <?php for($i = 5; $i >= 1; $i--): ?>
+                                                            <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>">
+                                                            <label for="star<?= $i ?>">
+                                                                <i class="fa fa-star"></i>
+                                                            </label>
+                                                        <?php endfor ?>
+                                                    </div>
+                                                    <div id="ratingError" style="color:red; display:none; font-size:14px; margin-top:4px;">
+                                                        Vui lòng chọn số sao trước khi gửi đánh giá.
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Nhận xét của bạn:</label>
+                                                        <textarea name="noidung" class="form-control" rows="3" required></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                                </form>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="login-to-review">
+                                                <p>Vui lòng <a href="?ctrl=user&act=login">đăng nhập</a> để viết đánh giá</p>
+                                            </div>
+                                        <?php endif ?>
+
+                                        <div class="reviews-list">
+                                            <h3>Tất cả đánh giá</h3>
+                                            <?php 
+                                            $reviews = $this->model->getProductReviews($sp['id']);
+                                            if(!empty($reviews)):
+                                                foreach($reviews as $review):
+                                            ?>
+                                                <div class="review-item">
+                                                    <div class="review-header">
+                                                        <div class="reviewer-info">
+                                                            <?php if($review['user_image']): ?>
+                                                                <img src="<?= PATH_IMG_SITE . $review['user_image'] ?>" alt="<?= $review['user_name'] ?>" class="reviewer-avatar">
+                                                            <?php endif ?>
+                                                            <span class="reviewer-name"><?= $review['user_name'] ?></span>
+                                                        </div>
+                                                        <div class="review-rating">
+                                                            <?php for($i = 1; $i <= 5; $i++): ?>
+                                                                <i class="fa fa-star<?= $i <= $review['rating'] ? ' text-warning' : '-o' ?>"></i>
+                                                            <?php endfor ?>
+                                                        </div>
+                                                        <div class="review-date">
+                                                            <?= date('d/m/Y', strtotime($review['ngaybinhluan'])) ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review-content">
+                                                        <?= nl2br(htmlspecialchars($review['noidung'])) ?>
+                                                    </div>
+                                                </div>
+                                            <?php 
+                                                endforeach;
+                                            else:
+                                            ?>
+                                                <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                                            <?php endif ?>
+                                        </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -726,5 +805,25 @@ document.getElementById("bookingForm").addEventListener("submit", function(e) {
   alert("Đặt lịch thử thành công!");
   modal.style.display = "none";
   this.reset();
+});
+
+// validate đánh giá
+document.getElementById('reviewForm').addEventListener('submit', function(e) {
+    const checked = document.querySelector('input[name="rating"]:checked');
+    const errorMsg = document.getElementById('ratingError');
+    if (!checked) {
+        e.preventDefault(); // chặn submit
+        errorMsg.style.display = 'block';
+        errorMsg.scrollIntoView({behavior: 'smooth', block: 'center'});
+    } else {
+        errorMsg.style.display = 'none';
+    }
+});
+
+// Khi người dùng chọn sao thì ẩn lỗi đi
+document.querySelectorAll('input[name="rating"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    document.getElementById('ratingError').style.display = 'none';
+  });
 });
 </script>

@@ -5,10 +5,10 @@
     require_once "../system/database.php";
 
 
-    define('ARR_CONTROLLER',["home","product","order","categories","users","thongbao","properties","contact","banner"]);
+    define('ARR_CONTROLLER',["home","product","order","categories","users","thongbao","properties","contact","banner","TokenApi","binhluan"]);
     $ctrl = 'product';
     if(isset($_GET['ctrl'])==true) $ctrl=$_GET['ctrl'];
-    if(in_array($ctrl,ARR_CONTROLLER)==false) die("Không thấy địa chỉ not found 404");
+    if(in_array($ctrl,ARR_CONTROLLER)===false) die("Không thấy địa chỉ not found 404");
     $pathFile = "controllers/$ctrl.php";
     if(file_exists($pathFile)== true) {
       require_once $pathFile; 
